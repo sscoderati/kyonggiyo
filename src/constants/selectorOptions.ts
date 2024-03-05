@@ -1,0 +1,15 @@
+export const RestaurantCategories = [
+  { value: "KOREAN", label: "한식" },
+  { value: "CHINESE", label: "중식" },
+  { value: "JAPANESE", label: "일식" },
+  { value: "WESTERN", label: "양식" },
+  { value: "FAST", label: "패스트푸드" },
+  { value: "CAFE", label: "카페" },
+  { value: "BAKERY", label: "베이커리" },
+  { value: "INDIAN", label: "인도음식" },
+  { value: "ALCOHOL", label: "주점" },
+  { value: "ASIAN", label: "동남아음식" },
+  { value: "CHICKEN", label: "치킨" },
+  { value: "FLOUR", label: "분식" },
+  { value: "ETC", label: "기타" },
+];

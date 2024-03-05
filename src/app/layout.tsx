@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,14 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={cn(
-          inter.className,
-          "mx-auto bg-gray-300 sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]",
-        )}
-      >
-        {children}
+      <body className={cn(inter.className, "bg-gray-300")}>
+        <main className="mx-auto min-h-dvh flex-col bg-white sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]">
+          {children}
+        </main>
       </body>
+      <Toaster
+        richColors
+        position={"top-center"}
+      />
     </html>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-/* global kakao */
 import type { Dispatch, SetStateAction } from "react";
 import Script from "next/script";
 import { KGU_POS } from "@/constants";

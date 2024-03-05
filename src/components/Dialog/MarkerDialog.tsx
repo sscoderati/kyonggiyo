@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import ReviewWriteDialog from "@/components/Dialog/ReviewWriteDialog";
 import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import type { MOCK_STORES } from "@/mock/storeInfo";
 import { format } from "date-fns";
 import { MapPin, Phone, Smile, Star, Tag, XIcon } from "lucide-react";

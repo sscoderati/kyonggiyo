@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import postRestaurant from "@/apis/postRestaurant";
 import postRestaurantCandidate from "@/apis/postRestaurantCandidate";
 import PostSearchDialog from "@/components/Dialog/PostSearchDialog";
 import NavBar from "@/components/NavBar";
@@ -20,24 +21,39 @@ import type { RegisterRestaurantSchemaType } from "@/schemas/RegisterRestaurantS
 import { RegisterRestaurantSchema } from "@/schemas/RegisterRestaurantSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import useUserAuthLevel from "@/hooks/useUserAuthLevel";
 import { RestaurantCategories } from "@/constants/selectorOptions";
 
 export default function RestaurantRegisterPage() {
   const router = useRouter();
+  const level = useUserAuthLevel();
   const restaurantRegisterForm = useForm<RegisterRestaurantSchemaType>({
     resolver: zodResolver(RegisterRestaurantSchema),
   });
 
   const handleSubmit = restaurantRegisterForm.handleSubmit((data) => {
-    postRestaurantCandidate(data).then((res) => {
-      if (res) {
-        toast.success("맛집 등록 신청이 완료되었습니다! 😆");
-        router.push("/");
-      }
-      if (!res) {
-        toast.error("맛집 등록 신청에 실패했습니다... 🥹");
-      }
-    });
+    if (level === "USER") {
+      postRestaurantCandidate(data).then((res) => {
+        if (res) {
+          toast.success("맛집 등록 신청이 완료되었습니다! 😆");
+          router.push("/");
+        }
+        if (!res) {
+          toast.error("맛집 등록 신청에 실패했습니다... 🥹");
+        }
+      });
+    }
+    if (level === "ADMIN") {
+      postRestaurant(data).then((res) => {
+        if (res) {
+          toast.success("맛집 등록이 완료되었습니다! 😆");
+          router.push("/");
+        }
+        if (!res) {
+          toast.error("맛집 등록에 실패했습니다... 🥹");
+        }
+      });
+    }
   });
 
   return (

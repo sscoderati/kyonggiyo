@@ -44,7 +44,8 @@ export default function RatingStar({ onChangeScore }: RatingStarProps) {
         {starArray.map((isFilled, index) => (
           <Star
             key={index}
-            fill={isFilled ? "black" : "none"}
+            stroke={"#ffbf00"}
+            fill={isFilled ? "#ffbf00" : "none"}
             className={"h-7 w-7 cursor-pointer"}
             onMouseOver={() => handleStarMouseOver(index)}
             onClick={handleCalculateReviewScore}

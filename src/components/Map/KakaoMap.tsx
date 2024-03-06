@@ -19,14 +19,32 @@ type KakaoMapProps = {
 export const markerImage = (category: string) => {
   const imageSrc = (category: string) => {
     switch (category) {
-      case "카페":
-        return "images/markers/cafe.png";
-      case "패스트푸드":
-        return "images/markers/fastfood.png";
-      case "분식":
-        return "images/markers/flour.png";
       case "한식":
         return "images/markers/korean.png";
+      case "중식":
+        return "images/markers/chinese.png";
+      case "일식":
+        return "images/markers/japanese.png";
+      case "양식":
+        return "images/markers/american.png";
+      case "패스트푸드":
+        return "images/markers/fastfood.png";
+      case "카페":
+        return "images/markers/cafe.png";
+      case "베이커리":
+        return "images/markers/bakery.png";
+      case "태국음식":
+        return "images/markers/thailand.png";
+      case "아시아음식":
+        return "images/markers/soup.png";
+      case "인도음식":
+        return "images/markers/india.png";
+      case "주점":
+        return "images/markers/beer.png";
+      case "치킨":
+        return "images/markers/chicken.png";
+      case "분식":
+        return "images/markers/flour.png";
       default:
         return "images/markers/default.png";
     }

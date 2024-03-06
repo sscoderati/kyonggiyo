@@ -18,7 +18,7 @@ import {
 
 type ImageViewerDialogProps = {
   trigger: ReactNode;
-  imageSrcSet: string[];
+  imageSrcSet: { imageUrl: string }[];
 };
 
 export default function ImageViewerDialog({
@@ -43,7 +43,7 @@ export default function ImageViewerDialog({
                   <Card>
                     <CardContent className="flex aspect-square items-center justify-center p-6">
                       <Image
-                        src={path}
+                        src={path.imageUrl}
                         alt={"리뷰 이미지"}
                         layout={"fill"}
                         objectFit={"cover"}

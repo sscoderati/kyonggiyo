@@ -29,7 +29,7 @@ export type Review = {
   id: number;
   rating: number;
   content: string;
-  images?: string[];
+  images?: { imageUrl: string }[];
   reviewer: User;
   createdAt: string;
 };

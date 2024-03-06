@@ -92,7 +92,7 @@ export default function MarkerDialog({
                         <ImageViewerDialog
                           trigger={
                             <div className={"flex gap-2"}>
-                              {review.images?.map((imageSrc, index) => (
+                              {review.images?.map((image, index) => (
                                 <div
                                   className={
                                     "relative h-28 w-28 cursor-pointer"
@@ -100,7 +100,7 @@ export default function MarkerDialog({
                                   key={`review-image-${index}`}
                                 >
                                   <Image
-                                    src={imageSrc}
+                                    src={image.imageUrl}
                                     alt={`리뷰 이미지-${index}`}
                                     layout={"fill"}
                                     objectFit={"cover"}

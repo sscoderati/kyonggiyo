@@ -1,13 +1,15 @@
 import type { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 import ReviewWriteDialog from "@/components/Dialog/ReviewWriteDialog";
 import { Button } from "@/components/ui/button";
 import type { MOCK_STORES } from "@/mock/storeInfo";
+import type { Restaurant } from "@/types";
 import { format } from "date-fns";
 import { MapPin, Phone, Smile, Star, Tag, XIcon } from "lucide-react";
 
 type MarkerDialogProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  selected: (typeof MOCK_STORES)[0] | null;
+  selected: Restaurant | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelected: Dispatch<SetStateAction<any>>;
 };
@@ -64,7 +66,6 @@ export default function MarkerDialog({
                     {selected.content}
                   </p>
                 </div>
-                {/*TODO: 리뷰 섹션 추가*/}
                 <div className={"mt-2 flex flex-col"}>
                   {selected.reviews.map((review) => (
                     <div
@@ -72,6 +73,22 @@ export default function MarkerDialog({
                       className={"mb-2 flex flex-col rounded-md border p-2"}
                     >
                       <h2 className={"text-lg font-bold"}>{review.content}</h2>
+                      {/* TODO: 이미지 영역 */}
+                      <div className={"flex gap-2"}>
+                        {review.images?.map((imageSrc, index) => (
+                          <div
+                            className={"relative h-28 w-28 cursor-pointer"}
+                            key={index}
+                          >
+                            <Image
+                              src={imageSrc}
+                              alt={`리뷰 이미지-${index}`}
+                              layout={"fill"}
+                              objectFit={"cover"}
+                            />
+                          </div>
+                        ))}
+                      </div>
                       <h3 className={"flex text-sm text-gray-400"}>
                         <Star className={"mr-1 h-4 w-4"} />
                         {review.rating} / 5.0

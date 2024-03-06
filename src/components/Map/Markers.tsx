@@ -1,8 +1,11 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useCallback } from "react";
 import { useEffect } from "react";
+import { useCallback } from "react";
+import getMarkers from "@/apis/getMarkers";
 import { markerImage } from "@/components/Map/KakaoMap";
 import { MOCK_STORES } from "@/mock/storeInfo";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { formatCategory } from "@/utils/formatCategory";
 
 type MarkerProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,16 +15,21 @@ type MarkerProps = {
 };
 
 export default function Markers({ map, setSelected }: MarkerProps) {
+  const { data: markerData } = useSuspenseQuery({
+    queryKey: ["markers"],
+    queryFn: getMarkers,
+  });
+
   const loadKakaoMarkers = useCallback(() => {
-    if (map) {
-      MOCK_STORES.map((store) => {
+    if (map && markerData) {
+      markerData.data.map((store) => {
         const markerPosition = new window.kakao.maps.LatLng(
           store.lat,
           store.lng,
         );
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
-          image: markerImage(store.category),
+          image: markerImage(formatCategory(store.category)),
         });
         marker.setMap(map);
 
@@ -47,6 +55,7 @@ export default function Markers({ map, setSelected }: MarkerProps) {
       });
     }
   }, [map, setSelected]);
+
   useEffect(() => {
     loadKakaoMarkers();
   }, [map, loadKakaoMarkers]);

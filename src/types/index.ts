@@ -4,7 +4,7 @@ export type Restaurant = {
   address: string;
   content: string;
   contact?: string;
-  category: string;
+  category: FOOD_CATEGORY;
   lat: number;
   lng: number;
   averageRating: number;
@@ -15,7 +15,7 @@ export type MarkerDetail = {
   id: number;
   name: string;
   averageRating: number;
-  category: string;
+  category: FOOD_CATEGORY;
   lat: number;
   lng: number;
 };

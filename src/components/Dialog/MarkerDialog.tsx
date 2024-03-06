@@ -103,7 +103,7 @@ export default function MarkerDialog({
                   ))}
                 </div>
                 <div className={"mt-4 flex w-full justify-end"}>
-                  <ReviewWriteDialog />
+                  <ReviewWriteDialog restaurantId={selected.id} />
                 </div>
               </div>
             </div>

@@ -69,8 +69,8 @@ export default function ReviewWriteDialog({
     const reviewData = new FormData();
     reviewData.append("request", json);
     if (imageFiles.length > 0) {
-      imageFiles.forEach((file, index) => {
-        reviewData.append(`image${index}`, file);
+      imageFiles.forEach((file) => {
+        reviewData.append("image", file);
       });
     }
     postReview(restaurantId.toString(), reviewData)

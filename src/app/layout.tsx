@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import RQProvider from "@/lib/react-query/QueryClient";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={cn(inter.className, "bg-gray-300")}>
-        <main className="mx-auto min-h-dvh flex-col bg-white sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]">
-          {children}
-        </main>
+        <RQProvider>
+          <main className="mx-auto min-h-dvh flex-col bg-white sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]">
+            {children}
+          </main>
+        </RQProvider>
       </body>
       <Toaster
         richColors

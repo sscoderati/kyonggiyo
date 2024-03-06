@@ -29,15 +29,15 @@ export default function MarkerDialog({
         >
           <div className={"p-8"}>
             <Button
-              className={"absolute right-4 top-4"}
+              className={"sticky top-4 z-30 float-end"}
               variant={"outline"}
               size={"icon"}
               onClick={() => setSelected(null)}
             >
               <XIcon className={"h-4 w-4"} />
             </Button>
-
             <h1 className={"text-2xl font-bold"}>{selected.name}</h1>
+
             <div className={"mt-4 flex-col"}>
               <p className={"my-2 flex text-sm"}>
                 <Tag className={"mr-2 h-4 w-4"} />

@@ -74,7 +74,7 @@ export default function MarkerDialog({
                 <div className={"mt-2 flex flex-col"}>
                   {selected.reviews.map((review) => (
                     <div
-                      key={review.id}
+                      key={`review-${review.id}`}
                       className={"mb-2 flex flex-col rounded-md border p-2"}
                     >
                       <h2 className={"text-lg font-bold"}>{review.content}</h2>

@@ -151,7 +151,7 @@ export default function ReviewWriteDialog({
                       <>
                         <label htmlFor={`review-image-${index}`}>
                           <div
-                            key={index}
+                            key={`empty-image-${index}`}
                             className={
                               "flex h-[108px] w-[108px] cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300"
                             }
@@ -169,7 +169,7 @@ export default function ReviewWriteDialog({
                       </>
                     ) : (
                       <div
-                        key={index}
+                        key={`image-${index}`}
                         className={
                           "relative h-[108px] w-[108px] cursor-pointer rounded-lg border-2 border-gray-300"
                         }

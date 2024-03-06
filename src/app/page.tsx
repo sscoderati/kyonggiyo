@@ -9,8 +9,9 @@ import NavBar from "@/components/NavBar";
 export default function Home() {
   const [map, setMap] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
+
   return (
-    <>
+    <main>
       <NavBar />
       <KakaoMap setMap={setMap} />
       <Markers
@@ -21,6 +22,6 @@ export default function Home() {
         selected={selectedMarker}
         setSelected={setSelectedMarker}
       />
-    </>
+    </main>
   );
 }

@@ -44,7 +44,11 @@ export default function MarkerDialog({
                 {selected.category}
               </p>
               <p className={"my-2  flex text-sm"}>
-                <Star className={"mr-2 h-4 w-4"} />
+                <Star
+                  className={"mr-2 h-4 w-4 border-amber-300"}
+                  stroke={"#ffbf00"}
+                  fill={"#ffbf00"}
+                />
                 {selected.averageRating} / 5.0
               </p>
               <p className={"my-2  flex text-sm"}>

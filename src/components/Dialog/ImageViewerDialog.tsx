@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { useEffect } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import {

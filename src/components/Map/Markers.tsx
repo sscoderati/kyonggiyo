@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import getMarkers from "@/apis/getMarkers";
 import { markerImage } from "@/components/Map/KakaoMap";
-import { MOCK_STORES } from "@/mock/storeInfo";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { formatCategory } from "@/utils/formatCategory";
 

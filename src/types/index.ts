@@ -2,6 +2,7 @@ export type Restaurant = {
   id: number;
   name: string;
   address: string;
+  content: string;
   contact?: string;
   category: string;
   lat: number;
@@ -10,19 +11,25 @@ export type Restaurant = {
   reviews: Review[];
 };
 
-export type MarkerInfo = {
+export type MarkerDetail = {
   id: number;
   name: string;
-  address: string;
+  averageRating: number;
   category: string;
   lat: number;
   lng: number;
+};
+
+export type MarkerData = {
+  data: MarkerDetail[];
+  size: number;
 };
 
 export type Review = {
   id: number;
   rating: number;
   content: string;
+  images?: string[];
   reviewer: User;
   createdAt: string;
 };

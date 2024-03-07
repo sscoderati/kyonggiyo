@@ -21,3 +21,23 @@ baseInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+baseInstance.interceptors.response.use(
+  (response) => {
+    if (response.headers.authorization) {
+      const existingToken = useUserStore.getState().token;
+      existingToken &&
+        useUserStore.setState({
+          token: {
+            ...existingToken,
+            accessToken: response.headers.authorization,
+          },
+        });
+    }
+    return response;
+  },
+  (error) => {
+    console.log(error.headers.Authorization);
+    return Promise.reject(error);
+  },
+);

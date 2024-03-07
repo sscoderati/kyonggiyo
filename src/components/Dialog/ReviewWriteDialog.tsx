@@ -28,7 +28,7 @@ import type { ReviewWriteFormType } from "@/schemas/ReviewWriteForm";
 import { ReviewWriteFormSchema } from "@/schemas/ReviewWriteForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 type ReviewWriteDialogProps = {
@@ -83,6 +83,15 @@ export default function ReviewWriteDialog({
         toast.error("리뷰 작성에 실패했습니다.");
       });
   });
+
+  const handleCancelImage = (idx: number) => {
+    const newImageSrcSet = [...imageSrcSet];
+    newImageSrcSet[idx] = "-";
+    setImageSrcSet(newImageSrcSet);
+    const newImageFiles = [...imageFiles];
+    newImageFiles[idx] = new File([""], "empty");
+    setImageFiles(newImageFiles);
+  };
 
   return (
     <Dialog>
@@ -171,9 +180,17 @@ export default function ReviewWriteDialog({
                       <div
                         key={`image-${index}`}
                         className={
-                          "relative h-[108px] w-[108px] cursor-pointer rounded-lg border-2 border-gray-300"
+                          "relative z-30 h-[108px] w-[108px] cursor-pointer rounded-lg border-2 border-gray-300"
                         }
                       >
+                        <div
+                          className={
+                            "absolute right-0 top-0 z-30 h-4 w-4 rounded-full bg-white"
+                          }
+                          onClick={() => handleCancelImage(index)}
+                        >
+                          <XIcon className={"h-4 w-4"} />
+                        </div>
                         <label htmlFor={`review-image-${index}`}>
                           <Image
                             className={"cursor-pointer"}

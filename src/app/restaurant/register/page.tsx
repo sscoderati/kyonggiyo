@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import type { RegisterRestaurantSchemaType } from "@/schemas/RegisterRestaurantSchema";
 import { RegisterRestaurantSchema } from "@/schemas/RegisterRestaurantSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -132,6 +133,20 @@ export default function RestaurantRegisterPage() {
                 </FormControl>
                 <FormMessage>
                   {restaurantRegisterForm.formState.errors.address?.message}
+                </FormMessage>
+              </FormItem>
+              <FormItem className={"w-full"}>
+                <FormLabel>맛집 추천 이유</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={
+                      "맛집을 추천하는 이유를 알려주세요! (10자 이상)"
+                    }
+                    {...restaurantRegisterForm.register("content")}
+                  />
+                </FormControl>
+                <FormMessage>
+                  {restaurantRegisterForm.formState.errors.content?.message}
                 </FormMessage>
               </FormItem>
               <Button

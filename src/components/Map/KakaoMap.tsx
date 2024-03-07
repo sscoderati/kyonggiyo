@@ -81,7 +81,7 @@ export default function KakaoMap({ setMap }: KakaoMapProps) {
       />
       <div
         id={"map"}
-        className={"h-dvh w-full"}
+        className={"h-[calc(100dvh-48px)] w-full"}
       ></div>
     </>
   );

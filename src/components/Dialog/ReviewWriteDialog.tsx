@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import patchReview from "@/apis/patchReview";
 import postReview from "@/apis/postReview";
 import RatingStar from "@/components/RatingStar/RatingStar";
 import { Button } from "@/components/ui/button";
@@ -26,17 +27,24 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import type { ReviewWriteFormType } from "@/schemas/ReviewWriteForm";
 import { ReviewWriteFormSchema } from "@/schemas/ReviewWriteForm";
+import type { Review } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
 import { PlusCircle, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 type ReviewWriteDialogProps = {
+  trigger: React.ReactNode;
   restaurantId: number;
+  isEditing?: boolean;
+  review?: Review;
 };
 
 export default function ReviewWriteDialog({
+  trigger,
   restaurantId,
+  isEditing = false,
+  review,
 }: ReviewWriteDialogProps) {
   const [imageSrcSet, setImageSrcSet] = useState<string[]>(["-", "-", "-"]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -44,6 +52,16 @@ export default function ReviewWriteDialog({
   const ReviewWriteForm = useForm<ReviewWriteFormType>({
     resolver: zodResolver(ReviewWriteFormSchema),
   });
+
+  useEffect(() => {
+    if (isEditing && review?.images) {
+      const newImageSrcSet = [...imageSrcSet];
+      review?.images.forEach((image, idx) => {
+        newImageSrcSet[idx] = image.imageUrl;
+      });
+      setImageSrcSet(newImageSrcSet);
+    }
+  }, []);
 
   const onUploadImage = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -65,23 +83,39 @@ export default function ReviewWriteDialog({
   };
 
   const handleSubmit = ReviewWriteForm.handleSubmit((data) => {
-    const json = JSON.stringify(data);
+    const json = JSON.stringify({ rating: data.rating, content: data.content });
     const reviewData = new FormData();
-    reviewData.append("request", json);
+    reviewData.append(
+      "request",
+      new Blob([json], { type: "application/json" }),
+    );
     if (imageFiles.length > 0) {
       imageFiles.forEach((file) => {
         reviewData.append("image", file);
       });
     }
-    postReview(restaurantId.toString(), reviewData)
-      .then((res) => {
-        if (res) {
-          toast.success("리뷰가 성공적으로 작성되었습니다!");
-        }
-      })
-      .catch(() => {
-        toast.error("리뷰 작성에 실패했습니다.");
-      });
+    if (isEditing && review) {
+      patchReview(restaurantId, review.id, reviewData)
+        .then((res) => {
+          if (res) {
+            toast.success("리뷰가 성공적으로 수정되었습니다!");
+          }
+        })
+        .catch(() => {
+          toast.error("리뷰 수정에 실패했습니다.");
+        });
+    }
+    if (!isEditing) {
+      postReview(restaurantId.toString(), reviewData)
+        .then((res) => {
+          if (res) {
+            toast.success("리뷰가 성공적으로 작성되었습니다!");
+          }
+        })
+        .catch(() => {
+          toast.error("리뷰 작성에 실패했습니다.");
+        });
+    }
   });
 
   const handleCancelImage = (idx: number) => {
@@ -95,18 +129,16 @@ export default function ReviewWriteDialog({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>리뷰 작성</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         className={
           "flex h-[620px] w-[360px] flex-col justify-start md:w-[400px]"
         }
       >
         <DialogHeader className={"mb-4"}>
-          <DialogTitle>리뷰 작성</DialogTitle>
+          <DialogTitle>{isEditing ? "리뷰 수정" : "리뷰 작성"}</DialogTitle>
           <DialogDescription className={"pt-4"}>
-            리뷰를 작성해주세요!
+            {isEditing ? "수정할 내용을 입력해주세요!" : "리뷰를 작성해주세요!"}
           </DialogDescription>
         </DialogHeader>
         <Form {...ReviewWriteForm}>
@@ -118,6 +150,7 @@ export default function ReviewWriteDialog({
               <FormControl>
                 <Textarea
                   className={"h-[100px] w-full"}
+                  defaultValue={isEditing ? review?.content : ""}
                   placeholder={
                     "맛집에 대한 생각을 자유롭게 남겨주세요! (10자 이상)"
                   }
@@ -140,6 +173,7 @@ export default function ReviewWriteDialog({
                   </FormLabel>
                   <FormControl>
                     <RatingStar
+                      defaultScore={isEditing ? review?.rating : 0}
                       onChangeScore={(score) => {
                         field.onChange(score);
                       }}
@@ -218,7 +252,7 @@ export default function ReviewWriteDialog({
               className={"mt-4 w-full"}
               type={"submit"}
             >
-              작성 완료
+              {isEditing ? "수정 완료" : "작성 완료"}
             </Button>
           </form>
         </Form>

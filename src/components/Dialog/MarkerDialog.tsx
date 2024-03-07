@@ -147,20 +147,35 @@ export default function MarkerDialog({
                             </h4>
                           </div>
                           {userId === review.reviewer.id && (
-                            <ConfirmDialog
-                              trigger={<Button className={"h-8"}>삭제</Button>}
-                              title={"리뷰 삭제"}
-                              description={"정말 리뷰를 삭제하시겠습니까?"}
-                              confirmText={"삭제"}
-                              onConfirm={() => handleDeleteReview(review.id)}
-                            />
+                            <div className={"flex gap-3"}>
+                              <ReviewWriteDialog
+                                trigger={
+                                  <Button className={"h-8"}>수정</Button>
+                                }
+                                restaurantId={data.id}
+                                isEditing={true}
+                                review={review}
+                              />
+                              <ConfirmDialog
+                                trigger={
+                                  <Button className={"h-8"}>삭제</Button>
+                                }
+                                title={"리뷰 삭제"}
+                                description={"정말 리뷰를 삭제하시겠습니까?"}
+                                confirmText={"삭제"}
+                                onConfirm={() => handleDeleteReview(review.id)}
+                              />
+                            </div>
                           )}
                         </div>
                       </div>
                     ))}
                 </div>
                 <div className={"mt-4 flex w-full justify-end"}>
-                  <ReviewWriteDialog restaurantId={data.id} />
+                  <ReviewWriteDialog
+                    trigger={<Button>리뷰 작성</Button>}
+                    restaurantId={data.id}
+                  />
                 </div>
               </div>
             </div>

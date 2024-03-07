@@ -155,6 +155,7 @@ export default function MarkerDialog({
                                 restaurantId={data.id}
                                 isEditing={true}
                                 review={review}
+                                refetch={refetch}
                               />
                               <ConfirmDialog
                                 trigger={
@@ -175,6 +176,7 @@ export default function MarkerDialog({
                   <ReviewWriteDialog
                     trigger={<Button>리뷰 작성</Button>}
                     restaurantId={data.id}
+                    refetch={refetch}
                   />
                 </div>
               </div>

@@ -2,7 +2,7 @@ export type Restaurant = {
   id: number;
   name: string;
   address: string;
-  content: string;
+  reason: string;
   contact?: string;
   category: FOOD_CATEGORY;
   lat: number;
@@ -17,6 +17,7 @@ export type Candidate = {
   category: FOOD_CATEGORY;
   contact?: string;
   address: string;
+  reason: string;
   lat: number;
   lng: number;
   createdAt: string;

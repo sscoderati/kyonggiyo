@@ -142,11 +142,11 @@ export default function RestaurantRegisterPage() {
                     placeholder={
                       "맛집을 추천하는 이유를 알려주세요! (10자 이상)"
                     }
-                    {...restaurantRegisterForm.register("content")}
+                    {...restaurantRegisterForm.register("reason")}
                   />
                 </FormControl>
                 <FormMessage>
-                  {restaurantRegisterForm.formState.errors.content?.message}
+                  {restaurantRegisterForm.formState.errors.reason?.message}
                 </FormMessage>
               </FormItem>
               <Button

@@ -96,7 +96,7 @@ export default function MarkerDialog({
                     추천 이유
                   </p>
                   <p className={"rounded-md bg-gray-100 p-2"}>
-                    {data.content ?? "일단 추천합니다."}
+                    {data.reason ?? "일단 추천합니다."}
                   </p>
                 </div>
                 <div className={"mt-2 flex flex-col"}>

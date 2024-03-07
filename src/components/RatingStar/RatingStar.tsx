@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 
 type RatingStarProps = {
+  defaultScore?: number;
   // eslint-disable-next-line no-unused-vars
   onChangeScore: (score: number) => void;
 };
 
-export default function RatingStar({ onChangeScore }: RatingStarProps) {
+export default function RatingStar({
+  defaultScore,
+  onChangeScore,
+}: RatingStarProps) {
   const [starArray, setStarArray] = useState([
     false,
     false,
@@ -17,6 +21,17 @@ export default function RatingStar({ onChangeScore }: RatingStarProps) {
     false,
   ]);
   const [reviewScore, setReviewScore] = useState(0);
+
+  useEffect(() => {
+    if (defaultScore) {
+      const newStarArray = [...starArray];
+      for (let i = 0; i < 5; i++) {
+        newStarArray[i] = i < defaultScore;
+      }
+      setStarArray(newStarArray);
+      setReviewScore(defaultScore);
+    }
+  }, [defaultScore]);
 
   const handleStarMouseOver = (index: number) => {
     const newStarArray = [...starArray];

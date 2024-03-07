@@ -32,7 +32,7 @@ export default function Markers({ map, setSelected }: MarkerProps) {
         });
         marker.setMap(map);
 
-        const content = `<div class="marker__badge">${store.name} <br /><div class="marker__badge__second">🏷️ ${formatCategory(store.category)} / ⭐️ ${store.averageRating}</div></div>`;
+        const content = `<div class="marker__badge">${store.name} <br /><div class="marker__badge__second">⭐️ ${store.averageRating} / ${formatCategory(store.category)}</div></div>`;
         const customOverlay = new window.kakao.maps.CustomOverlay({
           position: markerPosition,
           content: content,

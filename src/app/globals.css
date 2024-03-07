@@ -7,5 +7,5 @@
 }
 
 .marker__badge__second {
-  @apply flex
+  @apply flex text-[11px] text-gray-300
 }

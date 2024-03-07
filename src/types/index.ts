@@ -11,6 +11,18 @@ export type Restaurant = {
   reviews: Review[];
 };
 
+export type Candidate = {
+  id: number;
+  name: string;
+  category: FOOD_CATEGORY;
+  contact?: string;
+  address: string;
+  lat: number;
+  lng: number;
+  createdAt: string;
+  requesterId: number;
+};
+
 export type MarkerDetail = {
   id: number;
   name: string;

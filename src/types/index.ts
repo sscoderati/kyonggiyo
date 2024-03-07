@@ -23,6 +23,8 @@ export type Candidate = {
   requesterId: number;
 };
 
+export type CandidateStatus = "WAITING" | "ACCEPTED" | "REJECTED";
+
 export type MarkerDetail = {
   id: number;
   name: string;
@@ -55,6 +57,12 @@ export type TokenResponse = {
   accessToken: string;
   accessTokenMaxAge: number;
   refreshTokenMaxAge: number;
+};
+
+export type CandidateResponse = {
+  data: Candidate[];
+  numberOfElements: number;
+  hasNext: boolean;
 };
 
 export type FOOD_CATEGORY =

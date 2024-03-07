@@ -9,6 +9,7 @@ import RatingStar from "@/components/RatingStar/RatingStar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -38,6 +39,7 @@ type ReviewWriteDialogProps = {
   restaurantId: number;
   isEditing?: boolean;
   review?: Review;
+  refetch?: () => void;
 };
 
 export default function ReviewWriteDialog({
@@ -45,7 +47,9 @@ export default function ReviewWriteDialog({
   restaurantId,
   isEditing = false,
   review,
+  refetch,
 }: ReviewWriteDialogProps) {
+  const [isOpened, setIsOpened] = useState(false);
   const [imageSrcSet, setImageSrcSet] = useState<string[]>(["-", "-", "-"]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
@@ -99,6 +103,8 @@ export default function ReviewWriteDialog({
         .then((res) => {
           if (res) {
             toast.success("리뷰가 성공적으로 수정되었습니다!");
+            refetch && refetch();
+            setIsOpened(false);
           }
         })
         .catch(() => {
@@ -110,6 +116,8 @@ export default function ReviewWriteDialog({
         .then((res) => {
           if (res) {
             toast.success("리뷰가 성공적으로 작성되었습니다!");
+            refetch && refetch();
+            setIsOpened(false);
           }
         })
         .catch(() => {
@@ -128,8 +136,16 @@ export default function ReviewWriteDialog({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog
+      open={isOpened}
+      onOpenChange={setIsOpened}
+    >
+      <DialogTrigger
+        onClick={() => setIsOpened(true)}
+        asChild
+      >
+        {trigger}
+      </DialogTrigger>
       <DialogContent
         className={
           "flex h-[620px] w-[360px] flex-col justify-start md:w-[400px]"
@@ -141,6 +157,7 @@ export default function ReviewWriteDialog({
             {isEditing ? "수정할 내용을 입력해주세요!" : "리뷰를 작성해주세요!"}
           </DialogDescription>
         </DialogHeader>
+
         <Form {...ReviewWriteForm}>
           <form onSubmit={handleSubmit}>
             <FormItem>

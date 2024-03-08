@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import getKakaoLoginPath from "@/apis/getKakaoLoginPath";
+// import getKakaoLoginPath from "@/apis/getKakaoLoginPath";
 import LoginCarousel from "@/components/Carousel/LoginCarousel";
 import KakaoLoginButton from "@/images/kakaobutton.png";
+import axios from "axios";
 
 export default function LoginPage() {
   return (
@@ -19,8 +20,11 @@ export default function LoginPage() {
         width={360}
         height={48}
         onClick={() => {
-          getKakaoLoginPath().then((res) => {
-            window.location.href = res;
+          // getKakaoLoginPath().then((res) => {
+          //   window.location.href = res;
+          // });
+          axios.get("/api/get/kakao").then((res) => {
+            window.location.href = res.data;
           });
         }}
       />

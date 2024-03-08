@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import patchReview from "@/apis/patchReview";
@@ -56,15 +56,15 @@ export default function ReviewWriteDialog({
     resolver: zodResolver(ReviewWriteFormSchema),
   });
 
-  useEffect(() => {
-    if (isEditing && review?.images) {
-      const newImageSrcSet = [...imageSrcSet];
-      review?.images.forEach((image, idx) => {
-        newImageSrcSet[idx] = image.imageUrl;
-      });
-      setImageSrcSet(newImageSrcSet);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isEditing && review?.images) {
+  //     const newImageSrcSet = [...imageSrcSet];
+  //     review?.images.forEach((image, idx) => {
+  //       newImageSrcSet[idx] = image.imageUrl;
+  //     });
+  //     setImageSrcSet(newImageSrcSet);
+  //   }
+  // }, []);
 
   const onUploadImage = (
     event: React.ChangeEvent<HTMLInputElement>,

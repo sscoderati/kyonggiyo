@@ -167,9 +167,7 @@ export default function ReviewWriteDialog({
                 <Textarea
                   className={"h-[100px] w-full"}
                   defaultValue={isEditing ? review?.content : ""}
-                  placeholder={
-                    "맛집에 대한 생각을 자유롭게 남겨주세요! (10자 이상)"
-                  }
+                  placeholder={"맛집에 대한 생각을 자유롭게 남겨주세요!"}
                   {...ReviewWriteForm.register("content")}
                 />
               </FormControl>

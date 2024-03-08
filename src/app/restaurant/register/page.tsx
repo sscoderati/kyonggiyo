@@ -139,9 +139,7 @@ export default function RestaurantRegisterPage() {
                 <FormLabel>맛집 추천 이유</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder={
-                      "맛집을 추천하는 이유를 알려주세요! (10자 이상)"
-                    }
+                    placeholder={"맛집을 추천하는 이유를 알려주세요!"}
                     {...restaurantRegisterForm.register("reason")}
                   />
                 </FormControl>

@@ -37,7 +37,6 @@ baseInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.headers.Authorization);
     return Promise.reject(error);
   },
 );

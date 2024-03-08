@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import acceptRestaurantCandidate from "@/apis/acceptRestaurantCandidate";
 import deleteRestaurantCandidate from "@/apis/deleteRestaurantCandidate";
 import getRestaurantCandidates from "@/apis/getRestaurantCandidates";
 import NavBar from "@/components/NavBar";
@@ -96,7 +97,17 @@ export default function RestaurantDetailPage() {
         const handleDeleteCandidate = async () => {
           deleteRestaurantCandidate(candidate.id).then((res) => {
             if (res) {
-              toast.success("해당 신청건이 삭제되었습니다!");
+              toast.success("해당 신청 건이 거절되었습니다!");
+              refetchWaiting();
+              refetchAccepted();
+            }
+          });
+        };
+
+        const handleAcceptCandidate = async () => {
+          acceptRestaurantCandidate(candidate.id).then((res) => {
+            if (res) {
+              toast.success("해당 신청 건이 승인되었습니다!");
               refetchWaiting();
               refetchAccepted();
             }
@@ -118,11 +129,16 @@ export default function RestaurantDetailPage() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem onClick={() => console.log(candidate)}>
+                  <DropdownMenuItem
+                    className={"cursor-pointer"}
+                    onClick={() => handleAcceptCandidate()}
+                  >
                     승인
                   </DropdownMenuItem>
-                  <DropdownMenuItem>수정</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDeleteCandidate()}>
+                  <DropdownMenuItem
+                    className={"cursor-pointer"}
+                    onClick={() => handleDeleteCandidate()}
+                  >
                     거절
                   </DropdownMenuItem>
                 </DropdownMenuContent>

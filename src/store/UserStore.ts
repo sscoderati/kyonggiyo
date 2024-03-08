@@ -9,6 +9,7 @@ interface UserStore {
   setAccountId: (accountId: number) => void;
   // eslint-disable-next-line no-unused-vars
   setToken: (token: TokenResponse) => void;
+  reset: () => void;
 }
 
 export const useUserStore = create(
@@ -18,6 +19,7 @@ export const useUserStore = create(
       token: null,
       setAccountId: (accountId: number) => set({ accountId }),
       setToken: (token: TokenResponse) => set({ token }),
+      reset: () => set({ accountId: null, token: null }),
     }),
     {
       name: "user-storage",

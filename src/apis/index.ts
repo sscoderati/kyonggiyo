@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { toast } from "sonner";
 import { useTokenStore } from "@/store/UserStore";
 
 axios.defaults.withCredentials = true;
@@ -37,6 +38,10 @@ baseInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response.data.code === "G003") {
+      toast.error("세션이 만료되었습니다. 다시 로그인 해주세요.");
+      useTokenStore.getState().reset();
+    }
     return Promise.reject(error);
   },
 );

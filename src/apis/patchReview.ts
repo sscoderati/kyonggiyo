@@ -18,6 +18,7 @@ const patchReview = async (
     return res.status === 200;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

@@ -24,7 +24,7 @@ export type Candidate = {
   requesterId: number;
 };
 
-export type CandidateStatus = "WAITING" | "ACCEPTED" | "REJECTED";
+export type CandidateStatus = "WAITING" | "ACCEPTED";
 
 export type MarkerDetail = {
   id: number;

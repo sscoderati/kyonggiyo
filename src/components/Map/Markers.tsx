@@ -39,14 +39,7 @@ export default function Markers({ map, setSelected }: MarkerProps) {
           xAnchor: 0.5,
           yAnchor: 2.2,
         });
-
-        window.kakao.maps.event.addListener(marker, "mouseover", function () {
-          customOverlay.setMap(map);
-        });
-
-        window.kakao.maps.event.addListener(marker, "mouseout", function () {
-          customOverlay.setMap(null);
-        });
+        customOverlay.setMap(map);
 
         window.kakao.maps.event.addListener(marker, "click", function () {
           setSelected(store);

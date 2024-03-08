@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import checkUserAuthLevel from "@/utils/checkUserAuthLevel";
 import { RestaurantCategories } from "@/constants/selectorOptions";
 
-export default function RestaurantRegisterPage() {
+export default function CandidateRegisterPage() {
   const router = useRouter();
   const level = checkUserAuthLevel();
   const restaurantRegisterForm = useForm<RegisterRestaurantSchemaType>({

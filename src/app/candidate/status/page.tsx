@@ -44,7 +44,7 @@ import { toast } from "sonner";
 import checkUserAuthLevel from "@/utils/checkUserAuthLevel";
 import { formatCategory } from "@/utils/formatCategory";
 
-export default function RestaurantDetailPage() {
+export default function CandidateStatusPage() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],

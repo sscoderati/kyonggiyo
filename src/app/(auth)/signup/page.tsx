@@ -10,10 +10,10 @@ import type { SignUpFormSchemaType } from "@/schemas/SignUpFormSchema";
 import { SignUpFormSchema } from "@/schemas/SignUpFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useUserStore } from "@/store/UserStore";
+import { useAccountStore } from "@/store/UserStore";
 
 export default function SignUpPage() {
-  const { accountId } = useUserStore();
+  const { accountId, reset } = useAccountStore();
   const router = useRouter();
 
   const signUpForm = useForm<SignUpFormSchemaType>({
@@ -25,12 +25,14 @@ export default function SignUpPage() {
 
   const handleSubmit = signUpForm.handleSubmit((data) => {
     if (!accountId) {
+      toast.error("계정 정보가 없습니다. 다시 로그인해주세요. 🥹");
       return console.error("계정 정보가 없습니다.");
     }
     postUserSignUp({ accountId: accountId, nickname: data.username }).then(
       (res) => {
         if (res) {
           toast.success("회원가입이 완료되었습니다! 😆");
+          reset();
           router.replace("/login");
         }
         if (!res) {

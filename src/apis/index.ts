@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useUserStore } from "@/store/UserStore";
+import { useTokenStore } from "@/store/UserStore";
 
 axios.defaults.withCredentials = true;
 
@@ -15,7 +15,7 @@ export const baseInstance = axios.create({
 });
 
 baseInstance.interceptors.request.use((config) => {
-  const token = useUserStore.getState().token;
+  const token = useTokenStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token.accessToken}`;
   }
@@ -25,9 +25,9 @@ baseInstance.interceptors.request.use((config) => {
 baseInstance.interceptors.response.use(
   (response) => {
     if (response.headers.authorization) {
-      const existingToken = useUserStore.getState().token;
+      const existingToken = useTokenStore.getState().token;
       existingToken &&
-        useUserStore.setState({
+        useTokenStore.setState({
           token: {
             ...existingToken,
             accessToken: response.headers.authorization,

@@ -3,12 +3,13 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import getTokens from "@/apis/getTokens";
-import { useUserStore } from "@/store/UserStore";
+import { useAccountStore, useTokenStore } from "@/store/UserStore";
 
 export default function LoginCallback() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setAccountId, setToken } = useUserStore();
+  const { setAccountId } = useAccountStore();
+  const { setToken } = useTokenStore();
   useEffect(() => {
     getTokens("KAKAO", searchParams.get("code") as string).then((res) => {
       if (res) {

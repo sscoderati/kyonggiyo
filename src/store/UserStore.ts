@@ -2,27 +2,35 @@ import type { TokenResponse } from "@/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface UserStore {
+interface AccountStore {
   accountId: number | null;
-  token: TokenResponse | null;
   // eslint-disable-next-line no-unused-vars
   setAccountId: (accountId: number) => void;
+  reset: () => void;
+}
+
+interface TokenStore {
+  token: TokenResponse | null;
   // eslint-disable-next-line no-unused-vars
   setToken: (token: TokenResponse) => void;
   reset: () => void;
 }
 
-export const useUserStore = create(
-  persist<UserStore>(
+export const useAccountStore = create<AccountStore>((set) => ({
+  accountId: null,
+  setAccountId: (accountId: number) => set({ accountId }),
+  reset: () => set({ accountId: null }),
+}));
+
+export const useTokenStore = create(
+  persist<TokenStore>(
     (set) => ({
-      accountId: null,
       token: null,
-      setAccountId: (accountId: number) => set({ accountId }),
       setToken: (token: TokenResponse) => set({ token }),
-      reset: () => set({ accountId: null, token: null }),
+      reset: () => set({ token: null }),
     }),
     {
-      name: "user-storage",
+      name: "token-storage",
     },
   ),
 );

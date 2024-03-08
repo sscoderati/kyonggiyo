@@ -10,18 +10,18 @@ import { SideBarRoutes } from "@/constants";
 import { Menu } from "lucide-react";
 import { toast } from "sonner";
 import { Drawer } from "vaul";
-import { useUserStore } from "@/store/UserStore";
+import { useTokenStore } from "@/store/UserStore";
 
 export default function SideBar() {
   const [isOpened, setIsOpened] = useState(false);
-  const { token, reset } = useUserStore();
+  const { token, reset } = useTokenStore();
   const router = useRouter();
   const handleLogout = async () => {
-    useUserStore.persist.clearStorage();
+    useTokenStore.persist.clearStorage();
     const res = await getLogout();
     if (res) {
       toast.success("로그아웃 되었습니다!");
-      useUserStore.persist.clearStorage();
+      useTokenStore.persist.clearStorage();
       reset();
       setIsOpened(false);
     }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import getLogout from "@/apis/getLogout";
@@ -12,7 +13,8 @@ import { Drawer } from "vaul";
 import { useUserStore } from "@/store/UserStore";
 
 export default function SideBar() {
-  const { token } = useUserStore();
+  const [isOpened, setIsOpened] = useState(false);
+  const { token, reset } = useUserStore();
   const router = useRouter();
   const handleLogout = async () => {
     useUserStore.persist.clearStorage();
@@ -20,6 +22,8 @@ export default function SideBar() {
     if (res) {
       toast.success("로그아웃 되었습니다!");
       useUserStore.persist.clearStorage();
+      reset();
+      setIsOpened(false);
     }
     if (!res) {
       toast.error("로그아웃에 실패했습니다...");
@@ -27,12 +31,17 @@ export default function SideBar() {
   };
 
   return (
-    <Drawer.Root direction={"right"}>
+    <Drawer.Root
+      direction={"right"}
+      open={isOpened}
+      onOpenChange={setIsOpened}
+    >
       <Drawer.Trigger asChild>
         <Button
           className={"mr-4"}
           variant={"outline"}
           size={"icon"}
+          onClick={() => setIsOpened((prev) => !prev)}
         >
           <Menu className={"h-4 w-4"} />
         </Button>

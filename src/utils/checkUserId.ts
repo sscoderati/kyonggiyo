@@ -1,6 +1,6 @@
 import { useUserStore } from "@/store/UserStore";
 
-const useUserId = () => {
+const checkUserId = () => {
   const token = useUserStore.getState().token;
 
   if (token) {
@@ -9,4 +9,4 @@ const useUserId = () => {
   }
 };
 
-export default useUserId;
+export default checkUserId;

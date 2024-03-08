@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { MapPin, Phone, Smile, Star, Tag, XIcon } from "lucide-react";
 import { toast } from "sonner";
-import useUserId from "@/hooks/useUserId";
+import checkUserId from "@/utils/checkUserId";
 import { formatCategory } from "@/utils/formatCategory";
 
 type MarkerDialogProps = {
@@ -26,7 +26,7 @@ export default function MarkerDialog({
   selected,
   setSelected,
 }: MarkerDialogProps) {
-  const userId = useUserId();
+  const userId = checkUserId();
   const { data, refetch } = useQuery({
     queryKey: ["restaurant-detail", selected?.id],
     queryFn: () => getRestaurantDetail(selected?.id ?? 0),

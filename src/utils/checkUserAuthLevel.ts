@@ -1,6 +1,6 @@
 import { useUserStore } from "@/store/UserStore";
 
-const useUserAuthLevel = () => {
+const checkUserAuthLevel = () => {
   const token = useUserStore.getState().token;
 
   if (token) {
@@ -9,4 +9,4 @@ const useUserAuthLevel = () => {
   }
 };
 
-export default useUserAuthLevel;
+export default checkUserAuthLevel;

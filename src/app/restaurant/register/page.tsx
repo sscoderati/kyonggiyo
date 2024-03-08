@@ -22,12 +22,12 @@ import type { RegisterRestaurantSchemaType } from "@/schemas/RegisterRestaurantS
 import { RegisterRestaurantSchema } from "@/schemas/RegisterRestaurantSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import useUserAuthLevel from "@/hooks/useUserAuthLevel";
+import checkUserAuthLevel from "@/utils/checkUserAuthLevel";
 import { RestaurantCategories } from "@/constants/selectorOptions";
 
 export default function RestaurantRegisterPage() {
   const router = useRouter();
-  const level = useUserAuthLevel();
+  const level = checkUserAuthLevel();
   const restaurantRegisterForm = useForm<RegisterRestaurantSchemaType>({
     resolver: zodResolver(RegisterRestaurantSchema),
   });

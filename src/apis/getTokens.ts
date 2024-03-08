@@ -1,5 +1,6 @@
 import { baseInstance } from "@/apis/index";
 import type { TokenResponse } from "@/types";
+import { setCookie } from "cookies-next";
 
 interface getTokenResponse {
   accountId: number;
@@ -11,6 +12,10 @@ const getTokens = async (platform: string, code: string) => {
     const res = await baseInstance.get<getTokenResponse>(
       `/api/v1/auth/login/${platform}/callback?code=${code}`,
     );
+    setCookie("isAuth", "true", {
+      path: "/",
+      maxAge: res.data.token.refreshTokenMaxAge,
+    });
     return res.data;
   } catch (error) {
     console.error(error);

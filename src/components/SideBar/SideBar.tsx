@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import getLogout from "@/apis/getLogout";
 import SideBarItem from "@/components/SideBar/SideBarItem";
 import { Button } from "@/components/ui/button";
-import { SideBarRoutes } from "@/constants";
+import { PrivateRoutes, SideBarRoutes } from "@/constants";
 import { Menu } from "lucide-react";
 import { toast } from "sonner";
 import { Drawer } from "vaul";
@@ -28,6 +27,15 @@ export default function SideBar() {
     if (!res) {
       toast.error("로그아웃에 실패했습니다...");
     }
+  };
+
+  const handleMoveToPath = (path: string) => {
+    if (PrivateRoutes.includes(path) && !token) {
+      toast.error("로그인이 필요한 페이지입니다!");
+      return;
+    }
+    router.push(path);
+    setIsOpened(false);
   };
 
   return (
@@ -62,12 +70,12 @@ export default function SideBar() {
           <>
             {SideBarRoutes.map((route, index) => {
               return (
-                <Link
-                  key={index}
-                  href={route.path}
+                <div
+                  key={`sidebar-route-${index}`}
+                  onClick={() => handleMoveToPath(route.path)}
                 >
                   <SideBarItem name={route.name} />
-                </Link>
+                </div>
               );
             })}
           </>

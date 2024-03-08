@@ -5,4 +5,6 @@ export const SideBarRoutes = [
   { name: "맛집 신청 현황", path: "/restaurant/status" },
 ];
 
+export const PrivateRoutes = ["/restaurant/register", "/restaurant/status"];
+
 export const KGU_POS = { lat: 37.300548, lng: 127.03577 };

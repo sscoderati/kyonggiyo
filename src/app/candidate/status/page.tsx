@@ -4,6 +4,7 @@ import * as React from "react";
 import acceptRestaurantCandidate from "@/apis/acceptRestaurantCandidate";
 import deleteRestaurantCandidate from "@/apis/deleteRestaurantCandidate";
 import getRestaurantCandidates from "@/apis/getRestaurantCandidates";
+import CandidateEditDialog from "@/components/Dialog/CandidateEditDialog";
 import NavBar from "@/components/NavBar";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +55,9 @@ export default function CandidateStatusPage() {
   const [rowSelection, setRowSelection] = React.useState({});
   const [candidateStatus, setCandidateStatus] =
     React.useState<CandidateStatus>("WAITING");
+  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+  const [editingCandidate, setEditingCandidate] =
+    React.useState<Candidate | null>(null);
   const { data: waitingData, refetch: refetchWaiting } = useQuery({
     queryKey: ["candidates", "WAITING"],
     queryFn: () => getRestaurantCandidates("WAITING", 0),
@@ -114,6 +118,11 @@ export default function CandidateStatusPage() {
           });
         };
 
+        const handleEditCandidate = () => {
+          setEditingCandidate(candidate);
+          setEditDialogOpen(true);
+        };
+
         return (
           <>
             {level === "ADMIN" && (
@@ -134,6 +143,12 @@ export default function CandidateStatusPage() {
                     onClick={() => handleAcceptCandidate()}
                   >
                     승인
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className={"cursor-pointer"}
+                    onClick={handleEditCandidate}
+                  >
+                    수정
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className={"cursor-pointer"}
@@ -282,6 +297,14 @@ export default function CandidateStatusPage() {
           </div>
         </div>
       </div>
+      {editingCandidate && (
+        <CandidateEditDialog
+          candidate={editingCandidate}
+          isOpened={editDialogOpen}
+          setIsOpened={setEditDialogOpen}
+          refetch={refetchWaiting}
+        />
+      )}
     </>
   );
 }

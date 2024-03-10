@@ -68,6 +68,7 @@ export default function KakaoMap({ setMap }: KakaoMapProps) {
         level: 4,
       };
       const map = new window.kakao.maps.Map(container, options);
+
       setMap(map);
     });
   };
@@ -76,7 +77,7 @@ export default function KakaoMap({ setMap }: KakaoMapProps) {
       <Script
         strategy={"afterInteractive"}
         type={"text/javascript"}
-        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
+        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false&libraries=clusterer`}
         onReady={loadKakaoMap}
       />
       <div

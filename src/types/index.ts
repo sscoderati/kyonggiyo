@@ -74,7 +74,6 @@ export type FOOD_CATEGORY =
   | "FAST"
   | "CAFE"
   | "BAKERY"
-  | "THAI"
   | "ASIAN"
   | "INDIAN"
   | "ALCOHOL"

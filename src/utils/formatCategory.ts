@@ -14,8 +14,6 @@ export const formatCategory = (category: string) => {
       return "카페";
     case "BAKERY":
       return "베이커리";
-    case "THAI":
-      return "태국음식";
     case "ASIAN":
       return "아시아음식";
     case "INDIAN":

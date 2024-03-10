@@ -1,11 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useRef } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import getMarkers from "@/apis/getMarkers";
 import { markerImage } from "@/components/Map/KakaoMap";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import * as worker_threads from "worker_threads";
 import { formatCategory } from "@/utils/formatCategory";
 
 type MarkerProps = {

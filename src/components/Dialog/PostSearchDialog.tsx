@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import type { UseFormSetValue } from "react-hook-form";

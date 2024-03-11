@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import getLogout from "@/apis/getLogout";
 import SideBarItem from "@/components/SideBar/SideBarItem";
 import { Button } from "@/components/ui/button";
-import { PrivateRoutes, SideBarRoutes } from "@/constants";
+import { Separator } from "@/components/ui/separator";
+import { PrivateRoutes, SideBarRoutes, inquiryFormUrl } from "@/constants";
 import { Menu } from "lucide-react";
 import { toast } from "sonner";
 import { Drawer } from "vaul";
@@ -35,6 +36,11 @@ export default function SideBar() {
       return;
     }
     router.push(path);
+    setIsOpened(false);
+  };
+
+  const handleMoveToInquiry = () => {
+    window.location.href = inquiryFormUrl;
     setIsOpened(false);
   };
 
@@ -71,6 +77,7 @@ export default function SideBar() {
             {SideBarRoutes.map((route, index) => {
               return (
                 <div
+                  className={"my-1"}
                   key={`sidebar-route-${index}`}
                   onClick={() => handleMoveToPath(route.path)}
                 >
@@ -79,6 +86,15 @@ export default function SideBar() {
               );
             })}
           </>
+          <Separator />
+          <div
+            className={
+              "my-4 flex h-10 w-full cursor-pointer items-center justify-center transition-colors duration-300 hover:bg-blue-300"
+            }
+            onClick={() => handleMoveToInquiry()}
+          >
+            건의사항 등록
+          </div>
           {!token ? (
             <Button
               className={"mx-auto w-[200px]"}

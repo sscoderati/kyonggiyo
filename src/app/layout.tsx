@@ -8,7 +8,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "경기요! - 경기대학교 근처 맛집 지도 앱",
+  title: "🍽️경기요! - 경기대학교 근처 맛집 지도 앱",
   description: "경기대학교 근처의 맛집을 쉽게 찾아보세요!",
 };
 

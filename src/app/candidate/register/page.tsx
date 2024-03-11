@@ -156,12 +156,12 @@ export default function CandidateRegisterPage() {
                       className={"cursor-pointer"}
                       onClick={handleOpenNaverMapApp}
                     />
-                    <Image
-                      src={"/images/kakao_map.png"}
-                      alt={"카카오맵_로고"}
-                      width={MAP_LOGO_SIZE}
-                      height={MAP_LOGO_SIZE}
-                    />
+                    {/*<Image*/}
+                    {/*  src={"/images/kakao_map.png"}*/}
+                    {/*  alt={"카카오맵_로고"}*/}
+                    {/*  width={MAP_LOGO_SIZE}*/}
+                    {/*  height={MAP_LOGO_SIZE}*/}
+                    {/*/>*/}
                   </div>
                 </div>
                 <FormControl>

@@ -9,7 +9,7 @@ export default function NavBar() {
     >
       <div className={"ml-4 flex w-full items-center"}>
         <Image
-          src={"/assets/logo.svg"}
+          src={"/assets/logo.png"}
           alt={"logo"}
           width={32}
           height={32}

@@ -32,6 +32,14 @@ const MAP_LOGO_SIZE = 32;
 const INTENT_NAVER_MAP = `intent://place?lat=${KGU_POS.lat}&lng=${KGU_POS.lng}&name=${KGU_ENCODED_NAME}&appname=${APPNAME}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
 
 const handleOpenNaverMapApp = () => {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (!isMobile) {
+    window.open(
+      `https://map.naver.com/p/entry/place/11591483?c=16.00,0,0,0,dh`,
+      "_blank",
+    );
+    return;
+  }
   const userOS = window.navigator.userAgent.match(/Android/i)
     ? "android"
     : "ios";

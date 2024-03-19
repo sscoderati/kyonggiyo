@@ -12,10 +12,12 @@ const getTokens = async (platform: string, code: string) => {
     const res = await baseInstance.get<getTokenResponse>(
       `/api/v1/auth/login/${platform}/callback?code=${code}`,
     );
-    setCookie("isAuth", "true", {
-      path: "/",
-      maxAge: res.data.token.refreshTokenMaxAge,
-    });
+    if (res.data.token) {
+      setCookie("isAuth", "true", {
+        path: "/",
+        maxAge: res.data.token.refreshTokenMaxAge,
+      });
+    }
     return res.data;
   } catch (error) {
     console.error(error);

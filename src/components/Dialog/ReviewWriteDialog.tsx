@@ -54,7 +54,7 @@ export default function ReviewWriteDialog({
   const [isOpened, setIsOpened] = useState(false);
   const [imageSrcSet, setImageSrcSet] = useState<string[]>(["-", "-", "-"]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const reviewImageIds = [] as number[];
+  const [reviewImageIds, setReviewImageIds] = useState<number[]>([-1, -1, -1]);
 
   const ReviewWriteForm = useForm<ReviewWriteFormType>({
     resolver: zodResolver(ReviewWriteFormSchema),
@@ -65,7 +65,10 @@ export default function ReviewWriteDialog({
       const newImageSrcSet = [...imageSrcSet];
       review?.images.forEach((image, idx) => {
         newImageSrcSet[idx] = image.imageUrl;
-        reviewImageIds.push(image.id);
+        setReviewImageIds((prev) => {
+          prev[idx] = image.id;
+          return prev;
+        });
       });
       setImageSrcSet(newImageSrcSet);
     }
@@ -157,7 +160,10 @@ export default function ReviewWriteDialog({
     const newImageSrcSet = [...imageSrcSet];
     newImageSrcSet[idx] = "-";
     setImageSrcSet(newImageSrcSet);
-    reviewImageIds[idx] = -1;
+    setReviewImageIds((prev) => {
+      prev[idx] = -1;
+      return prev;
+    });
   };
 
   return (
@@ -261,7 +267,10 @@ export default function ReviewWriteDialog({
                           className={
                             "absolute right-0 top-0 z-30 h-4 w-4 rounded-full bg-white"
                           }
-                          onClick={() => handleCancelImage(index)}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            handleCancelImage(index);
+                          }}
                         >
                           <XIcon className={"h-4 w-4"} />
                         </div>

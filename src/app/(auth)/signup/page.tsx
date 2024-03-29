@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import getNicknameValid from "@/apis/getNicknameValid";
 import postUserSignUp from "@/apis/postUserSignUp";
 import { Button } from "@/components/ui/button";
 import { Form, FormMessage } from "@/components/ui/form";
@@ -9,11 +11,13 @@ import { Input } from "@/components/ui/input";
 import type { SignUpFormSchemaType } from "@/schemas/SignUpFormSchema";
 import { SignUpFormSchema } from "@/schemas/SignUpFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useAccountStore } from "@/store/UserStore";
 
 export default function SignUpPage() {
   const { accountId, reset } = useAccountStore();
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
   const router = useRouter();
 
   const signUpForm = useForm<SignUpFormSchemaType>({
@@ -23,10 +27,27 @@ export default function SignUpPage() {
     },
   });
 
+  const handleCheckNickname = async (nickname: string) => {
+    const { flag: isValid } = await getNicknameValid(nickname);
+    if (isValid) {
+      setIsNicknameValid(true);
+      toast.success("사용 가능한 닉네임입니다! 😆");
+    }
+    if (!isValid) {
+      setIsNicknameValid(false);
+      toast.error("이미 사용중인 닉네임입니다. 🥹");
+    }
+  };
+
   const handleSubmit = signUpForm.handleSubmit((data) => {
+    if (!isNicknameValid) {
+      toast.error("닉네임 중복확인을 해주세요. 🥹");
+      return;
+    }
     if (!accountId) {
       toast.error("계정 정보가 없습니다. 다시 로그인해주세요. 🥹");
-      return console.error("계정 정보가 없습니다.");
+      console.error("계정 정보가 없습니다.");
+      return;
     }
     postUserSignUp({ accountId: accountId, nickname: data.username }).then(
       (res) => {
@@ -52,12 +73,27 @@ export default function SignUpPage() {
           onSubmit={handleSubmit}
           className={"flex w-full flex-col items-center"}
         >
-          <Input
-            className={"mx-auto w-[220px] md:w-[400px]"}
-            type={"text"}
-            placeholder={"닉네임 (2자 이상)"}
-            {...signUpForm.register("username")}
-          />
+          <div className={"flex items-center gap-x-5"}>
+            <Input
+              className={`mx-auto w-[220px] md:w-[400px] ${isNicknameValid ? "border-green-400" : "border-gray-200"}`}
+              type={"text"}
+              placeholder={"닉네임 (2자 이상)"}
+              {...signUpForm.register("username")}
+            />
+            <Button
+              variant={"outline"}
+              className={`flex items-center gap-x-1 px-2 ${isNicknameValid ? "border-green-400" : "border-gray-200"}`}
+              onClick={(event) => {
+                event.preventDefault();
+                handleCheckNickname(signUpForm.getValues("username"));
+              }}
+            >
+              중복확인
+              <CheckIcon
+                className={`h-5 w-5 ${isNicknameValid ? "text-green-400" : "text-gray-500"}`}
+              />
+            </Button>
+          </div>
           {signUpForm.formState.errors.username && (
             <FormMessage className={"mt-4"}>
               {signUpForm.formState.errors.username.message}
@@ -65,7 +101,9 @@ export default function SignUpPage() {
           )}
           <Button
             type={"submit"}
-            className={"mx-auto mt-8 rounded-md bg-blue-500 p-2 text-white"}
+            className={
+              "mx-auto mt-8 h-12 w-24 rounded-xl bg-blue-500 p-2 text-[16px] text-white hover:bg-blue-400"
+            }
           >
             가입하기
           </Button>

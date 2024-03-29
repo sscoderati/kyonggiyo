@@ -54,7 +54,8 @@ export default function ReviewWriteDialog({
   const [isOpened, setIsOpened] = useState(false);
   const [imageSrcSet, setImageSrcSet] = useState<string[]>(["-", "-", "-"]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [reviewImageIds, setReviewImageIds] = useState<number[]>([-1, -1, -1]);
+  const reviewImageIds = [] as number[];
+  const toBeDeletedImageIds = [] as number[];
 
   const reviewWriteForm = useForm<ReviewWriteFormType>({
     resolver: zodResolver(ReviewWriteFormSchema),
@@ -72,14 +73,11 @@ export default function ReviewWriteDialog({
       const newImageSrcSet = [...imageSrcSet];
       review?.images.forEach((image, idx) => {
         newImageSrcSet[idx] = image.imageUrl;
-        setReviewImageIds((prev) => {
-          prev[idx] = image.id;
-          return prev;
-        });
+        reviewImageIds.push(image.id);
       });
       setImageSrcSet(newImageSrcSet);
     }
-  }, []);
+  }, [isOpened]);
 
   const onUploadImage = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -119,7 +117,7 @@ export default function ReviewWriteDialog({
     // 리뷰를 수정하는 경우
     if (isEditing && review) {
       const imageDeletePromise = Promise.all(
-        reviewImageIds.map((id) => {
+        toBeDeletedImageIds.map((id) => {
           if (id > 0) {
             return deleteReviewImage(id.toString());
           }
@@ -166,10 +164,7 @@ export default function ReviewWriteDialog({
     const newImageSrcSet = [...imageSrcSet];
     newImageSrcSet[idx] = "-";
     setImageSrcSet(newImageSrcSet);
-    setReviewImageIds((prev) => {
-      prev[idx] = -1;
-      return prev;
-    });
+    toBeDeletedImageIds.push(reviewImageIds[idx]);
   };
 
   return (

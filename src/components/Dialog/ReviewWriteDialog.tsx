@@ -93,14 +93,6 @@ export default function ReviewWriteDialog({
     }
   };
 
-  const imageDeletePromise = Promise.all(
-    reviewImageIds.map((id) => {
-      if (id > 0) {
-        return deleteReviewImage(id.toString());
-      }
-    }),
-  );
-
   const handleSubmit = ReviewWriteForm.handleSubmit((data) => {
     // 이미지 presigned url 발급 후 이미지 업로드
     const imageUploadPromise = Promise.all(
@@ -119,6 +111,13 @@ export default function ReviewWriteDialog({
 
     // 리뷰를 수정하는 경우
     if (isEditing && review) {
+      const imageDeletePromise = Promise.all(
+        reviewImageIds.map((id) => {
+          if (id > 0) {
+            return deleteReviewImage(id.toString());
+          }
+        }),
+      );
       imageDeletePromise.then(() => {
         imageUploadPromise.then((imageUrls) => {
           patchReview(restaurantId, review.id, {

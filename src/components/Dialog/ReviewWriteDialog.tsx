@@ -56,9 +56,16 @@ export default function ReviewWriteDialog({
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [reviewImageIds, setReviewImageIds] = useState<number[]>([-1, -1, -1]);
 
-  const ReviewWriteForm = useForm<ReviewWriteFormType>({
+  const reviewWriteForm = useForm<ReviewWriteFormType>({
     resolver: zodResolver(ReviewWriteFormSchema),
   });
+
+  const cleanupFormWithCloseDialog = () => {
+    setIsOpened(false);
+    reviewWriteForm.reset();
+    setImageSrcSet(["-", "-", "-"]);
+    setImageFiles([]);
+  };
 
   useEffect(() => {
     if (isEditing && review?.images) {
@@ -93,7 +100,7 @@ export default function ReviewWriteDialog({
     }
   };
 
-  const handleSubmit = ReviewWriteForm.handleSubmit((data) => {
+  const handleSubmit = reviewWriteForm.handleSubmit((data) => {
     // 이미지 presigned url 발급 후 이미지 업로드
     const imageUploadPromise = Promise.all(
       imageFiles.map((file) => {
@@ -128,7 +135,7 @@ export default function ReviewWriteDialog({
               if (res) {
                 toast.success("리뷰가 성공적으로 수정되었습니다!");
                 refetch && refetch();
-                setIsOpened(false);
+                cleanupFormWithCloseDialog();
               }
             })
             .catch(() => {
@@ -145,7 +152,7 @@ export default function ReviewWriteDialog({
             if (res) {
               toast.success("리뷰가 성공적으로 작성되었습니다!");
               refetch && refetch();
-              setIsOpened(false);
+              cleanupFormWithCloseDialog();
             }
           })
           .catch(() => {
@@ -191,7 +198,7 @@ export default function ReviewWriteDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...ReviewWriteForm}>
+        <Form {...reviewWriteForm}>
           <form onSubmit={handleSubmit}>
             <FormItem>
               <FormLabel className={"text-sm font-semibold"}>
@@ -202,12 +209,12 @@ export default function ReviewWriteDialog({
                   className={"h-[100px] w-full"}
                   defaultValue={isEditing ? review?.content : ""}
                   placeholder={"맛집에 대한 생각을 자유롭게 남겨주세요!"}
-                  {...ReviewWriteForm.register("content")}
+                  {...reviewWriteForm.register("content")}
                 />
               </FormControl>
-              {ReviewWriteForm.formState.errors.content && (
+              {reviewWriteForm.formState.errors.content && (
                 <FormMessage>
-                  {ReviewWriteForm.formState.errors.content.message}
+                  {reviewWriteForm.formState.errors.content.message}
                 </FormMessage>
               )}
             </FormItem>

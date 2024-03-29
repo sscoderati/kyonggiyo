@@ -172,7 +172,10 @@ export default function ReviewWriteDialog({
       onOpenChange={setIsOpened}
     >
       <DialogTrigger
-        onClick={() => setIsOpened(true)}
+        onClick={(event) => {
+          event.preventDefault();
+          setIsOpened(true);
+        }}
         asChild
       >
         {trigger}

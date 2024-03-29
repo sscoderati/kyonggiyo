@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import getPresignedUrl from "@/apis/getPresignedUrl";
 import patchReview from "@/apis/patchReview";
 import postReview from "@/apis/postReview";
 import RatingStar from "@/components/RatingStar/RatingStar";
@@ -30,6 +31,7 @@ import { ReviewWriteFormSchema } from "@/schemas/ReviewWriteForm";
 import type { Review } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
+import axios from "axios";
 import { PlusCircle, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -86,42 +88,52 @@ export default function ReviewWriteDialog({
   };
 
   const handleSubmit = ReviewWriteForm.handleSubmit((data) => {
-    const json = JSON.stringify({ rating: data.rating, content: data.content });
-    const reviewData = new FormData();
-    reviewData.append(
-      "request",
-      new Blob([json], { type: "application/json" }),
+    // 이미지 presigned url 발급 후 이미지 업로드
+    const imageUploadPromise = Promise.all(
+      imageFiles.map((file) => {
+        return getPresignedUrl(file.name).then((res) => {
+          return axios
+            .put(res.presignedUrl, file, {
+              headers: { "Content-Type": file.type },
+            })
+            .then(
+              () => res.presignedUrl.split("?")[0].split("amazonaws.com/")[1],
+            );
+        });
+      }),
     );
-    if (imageFiles.length > 0) {
-      imageFiles.forEach((file) => {
-        reviewData.append("image", file);
+
+    // 리뷰를 수정하는 경우
+    if (isEditing && review) {
+      imageUploadPromise.then((imageUrls) => {
+        patchReview(restaurantId, review.id, { ...data, imageUrls: imageUrls })
+          .then((res) => {
+            if (res) {
+              toast.success("리뷰가 성공적으로 수정되었습니다!");
+              refetch && refetch();
+              setIsOpened(false);
+            }
+          })
+          .catch(() => {
+            toast.error("리뷰 수정에 실패했습니다.");
+          });
       });
     }
-    if (isEditing && review) {
-      patchReview(restaurantId, review.id, reviewData)
-        .then((res) => {
-          if (res) {
-            toast.success("리뷰가 성공적으로 수정되었습니다!");
-            refetch && refetch();
-            setIsOpened(false);
-          }
-        })
-        .catch(() => {
-          toast.error("리뷰 수정에 실패했습니다.");
-        });
-    }
+    // 리뷰를 작성하는 경우
     if (!isEditing) {
-      postReview(restaurantId.toString(), reviewData)
-        .then((res) => {
-          if (res) {
-            toast.success("리뷰가 성공적으로 작성되었습니다!");
-            refetch && refetch();
-            setIsOpened(false);
-          }
-        })
-        .catch(() => {
-          toast.error("리뷰 작성에 실패했습니다.");
-        });
+      imageUploadPromise.then((imageUrls) => {
+        postReview(restaurantId.toString(), { ...data, imageUrls: imageUrls })
+          .then((res) => {
+            if (res) {
+              toast.success("리뷰가 성공적으로 작성되었습니다!");
+              refetch && refetch();
+              setIsOpened(false);
+            }
+          })
+          .catch(() => {
+            toast.error("리뷰 작성에 실패했습니다.");
+          });
+      });
     }
   });
 

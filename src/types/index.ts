@@ -49,6 +49,12 @@ export type Review = {
   createdAt: string;
 };
 
+export type ReviewForm = {
+  rating: number;
+  content: string;
+  imageUrls: string[];
+};
+
 export type User = {
   id: number;
   nickname: string;

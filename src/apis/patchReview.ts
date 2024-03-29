@@ -1,9 +1,10 @@
 import { baseInstance } from "@/apis/index";
+import type { ReviewForm } from "@/types";
 
 const patchReview = async (
   restaurantId: number,
   reviewId: number,
-  data: FormData,
+  data: ReviewForm,
 ) => {
   try {
     const res = await baseInstance.patch(

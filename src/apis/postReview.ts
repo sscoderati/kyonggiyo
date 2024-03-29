@@ -1,15 +1,11 @@
 import { baseInstance } from "@/apis/index";
+import type { ReviewForm } from "@/types";
 
-const postReview = async (restaurantId: string, data: FormData) => {
+const postReview = async (restaurantId: string, data: ReviewForm) => {
   try {
     const res = await baseInstance.post(
       `/api/v1/restaurants/${restaurantId}/reviews`,
       data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
     );
     return res.status === 200;
   } catch (error) {

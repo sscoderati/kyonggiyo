@@ -1,8 +1,15 @@
 import { baseInstance } from "@/apis/index";
 
-const deleteReviewImage = async (imageId: string) => {
+export type DeleteReviewImageRequestBody = {
+  id: number;
+  key: string;
+};
+
+const deleteReviewImage = async (info: DeleteReviewImageRequestBody) => {
   try {
-    const res = await baseInstance.delete(`/api/v1/images/${imageId}`);
+    const res = await baseInstance.delete(`/api/v1/images/${info.id}`, {
+      data: info,
+    });
     return res.status === 204;
   } catch (error) {
     console.error(error);

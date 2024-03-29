@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import deleteReviewImage from "@/apis/deleteReviewImage";
 import getPresignedUrl from "@/apis/getPresignedUrl";
 import patchReview from "@/apis/patchReview";
 import postReview from "@/apis/postReview";
@@ -53,20 +54,22 @@ export default function ReviewWriteDialog({
   const [isOpened, setIsOpened] = useState(false);
   const [imageSrcSet, setImageSrcSet] = useState<string[]>(["-", "-", "-"]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [reviewImageIds, setReviewImageIds] = useState<number[]>([]);
 
   const ReviewWriteForm = useForm<ReviewWriteFormType>({
     resolver: zodResolver(ReviewWriteFormSchema),
   });
 
-  // useEffect(() => {
-  //   if (isEditing && review?.images) {
-  //     const newImageSrcSet = [...imageSrcSet];
-  //     review?.images.forEach((image, idx) => {
-  //       newImageSrcSet[idx] = image.imageUrl;
-  //     });
-  //     setImageSrcSet(newImageSrcSet);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (isEditing && review?.images) {
+      const newImageSrcSet = [...imageSrcSet];
+      review?.images.forEach((image, idx) => {
+        newImageSrcSet[idx] = image.imageUrl;
+        setReviewImageIds((prev) => [...prev, image.id]);
+      });
+      setImageSrcSet(newImageSrcSet);
+    }
+  }, []);
 
   const onUploadImage = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -87,6 +90,10 @@ export default function ReviewWriteDialog({
     }
   };
 
+  const imageDeletePromise = Promise.all(
+    reviewImageIds.map((id) => deleteReviewImage(id.toString())),
+  );
+
   const handleSubmit = ReviewWriteForm.handleSubmit((data) => {
     // 이미지 presigned url 발급 후 이미지 업로드
     const imageUploadPromise = Promise.all(
@@ -105,18 +112,23 @@ export default function ReviewWriteDialog({
 
     // 리뷰를 수정하는 경우
     if (isEditing && review) {
-      imageUploadPromise.then((imageUrls) => {
-        patchReview(restaurantId, review.id, { ...data, imageUrls: imageUrls })
-          .then((res) => {
-            if (res) {
-              toast.success("리뷰가 성공적으로 수정되었습니다!");
-              refetch && refetch();
-              setIsOpened(false);
-            }
+      imageDeletePromise.then(() => {
+        imageUploadPromise.then((imageUrls) => {
+          patchReview(restaurantId, review.id, {
+            ...data,
+            imageUrls: imageUrls,
           })
-          .catch(() => {
-            toast.error("리뷰 수정에 실패했습니다.");
-          });
+            .then((res) => {
+              if (res) {
+                toast.success("리뷰가 성공적으로 수정되었습니다!");
+                refetch && refetch();
+                setIsOpened(false);
+              }
+            })
+            .catch(() => {
+              toast.error("리뷰 수정에 실패했습니다.");
+            });
+        });
       });
     }
     // 리뷰를 작성하는 경우
@@ -141,9 +153,6 @@ export default function ReviewWriteDialog({
     const newImageSrcSet = [...imageSrcSet];
     newImageSrcSet[idx] = "-";
     setImageSrcSet(newImageSrcSet);
-    const newImageFiles = [...imageFiles];
-    newImageFiles[idx] = new File([""], "empty");
-    setImageFiles(newImageFiles);
   };
 
   return (

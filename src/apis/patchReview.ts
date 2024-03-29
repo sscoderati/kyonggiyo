@@ -10,11 +10,6 @@ const patchReview = async (
     const res = await baseInstance.patch(
       `/api/v1/restaurants/${restaurantId}/reviews/${reviewId}`,
       data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
     );
     return res.status === 200;
   } catch (error) {

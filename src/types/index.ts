@@ -44,7 +44,7 @@ export type Review = {
   id: number;
   rating: number;
   content: string;
-  images?: { imageUrl: string }[];
+  images?: { id: number; imageUrl: string; key: string }[];
   reviewer: User;
   createdAt: string;
 };

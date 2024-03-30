@@ -125,7 +125,7 @@ export default function CandidateStatusPage() {
 
         return (
           <>
-            {level === "ADMIN" && (
+            {level === "ADMIN" && candidateStatus === "WAITING" && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

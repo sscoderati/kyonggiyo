@@ -29,7 +29,7 @@ import checkUserAuthLevel from "@/utils/checkUserAuthLevel";
 import { RestaurantCategories } from "@/constants/selectorOptions";
 
 const MAP_LOGO_SIZE = 32;
-const INTENT_NAVER_MAP = `intent://place?lat=${KGU_POS.lat}&lng=${KGU_POS.lng}&name=${KGU_ENCODED_NAME}&appname=${APPNAME}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+const INTENT_NAVER_MAP = `intent://place?lat=${KGU_POS.suwon.lat}&lng=${KGU_POS.suwon.lng}&name=${KGU_ENCODED_NAME}&appname=${APPNAME}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
 
 const handleOpenNaverMapApp = () => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -51,7 +51,7 @@ const handleOpenNaverMapApp = () => {
   if (userOS === "ios") {
     const clickedAt = +new Date();
 
-    window.location.href = `nmap://actionPath?parameter=value&place?lat=${KGU_POS.lat}&lng=${KGU_POS.lng}&name=${KGU_ENCODED_NAME}&appname=${APPNAME}`;
+    window.location.href = `nmap://actionPath?parameter=value&place?lat=${KGU_POS.suwon.lat}&lng=${KGU_POS.suwon.lng}&name=${KGU_ENCODED_NAME}&appname=${APPNAME}`;
 
     setTimeout(function () {
       if (+new Date() - clickedAt < 2000) {

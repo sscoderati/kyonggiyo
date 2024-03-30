@@ -4,16 +4,11 @@ import type { Dispatch, SetStateAction } from "react";
 import Script from "next/script";
 import { KGU_POS } from "@/constants";
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    kakao: any;
-  }
-}
-
 type KakaoMapProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setMap: Dispatch<SetStateAction<any>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setPos: Dispatch<SetStateAction<any>>;
 };
 
 export const markerImage = (category: string) => {
@@ -59,17 +54,26 @@ export const markerImage = (category: string) => {
   );
 };
 
-export default function KakaoMap({ setMap }: KakaoMapProps) {
+export default function KakaoMap({ setMap, setPos }: KakaoMapProps) {
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
+      const suwonPos = new window.kakao.maps.LatLng(
+        KGU_POS.suwon.lat,
+        KGU_POS.suwon.lng,
+      );
+      const seoulPos = new window.kakao.maps.LatLng(
+        KGU_POS.seoul.lat,
+        KGU_POS.seoul.lng,
+      );
       const options = {
-        center: new window.kakao.maps.LatLng(KGU_POS.lat, KGU_POS.lng),
+        center: suwonPos,
         level: 4,
       };
       const map = new window.kakao.maps.Map(container, options);
 
       setMap(map);
+      setPos({ suwon: suwonPos, seoul: seoulPos });
     });
   };
   return (

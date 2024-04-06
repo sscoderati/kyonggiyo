@@ -52,7 +52,7 @@ export default function SideBar() {
     >
       <Drawer.Trigger asChild>
         <Button
-          className={"mr-4"}
+          className={"mr-4 outline-0"}
           variant={"outline"}
           size={"icon"}
           onClick={() => setIsOpened((prev) => !prev)}
@@ -64,7 +64,7 @@ export default function SideBar() {
         <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40" />
         <Drawer.Content
           className={
-            "fixed bottom-0 right-0 z-30 mt-24 flex h-full w-4/5 flex-col rounded-t-[10px] bg-white md:w-[400px]"
+            "fixed bottom-0 right-0 z-30 mt-24 flex h-full w-4/5 flex-col rounded-t-[10px] bg-white outline-0 md:w-[400px]"
           }
         >
           <Drawer.Title className={"mx-4 my-4 font-medium"}>

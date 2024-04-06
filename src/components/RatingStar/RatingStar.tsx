@@ -58,7 +58,7 @@ export default function RatingStar({
       <div className={"mx-auto flex gap-2"}>
         {starArray.map((isFilled, index) => (
           <Star
-            key={index}
+            key={`star-${index}`}
             stroke={"#ffbf00"}
             fill={isFilled ? "#ffbf00" : "none"}
             className={"h-7 w-7 cursor-pointer"}

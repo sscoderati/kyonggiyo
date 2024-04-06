@@ -24,6 +24,19 @@ export type Candidate = {
   requesterId: number;
 };
 
+export type SearchResult = {
+  data: {
+    id: number;
+    name: string;
+    category: FOOD_CATEGORY;
+    lat: number;
+    lng: number;
+    averageRating: number;
+    reason: string;
+  }[];
+  size: number;
+};
+
 export type CandidateStatus = "WAITING" | "ACCEPTED";
 
 export type MarkerDetail = {

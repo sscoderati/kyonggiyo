@@ -133,6 +133,7 @@ export default function ReviewWriteDialog({
       );
       imageDeletePromise.then(() => {
         imageUploadPromise.then((imageUrls) => {
+          imageUrls = imageUrls.filter((url) => url !== null);
           patchReview(restaurantId, review.id, {
             ...data,
             imageUrls: imageUrls,

@@ -32,7 +32,7 @@ export type SearchResult = {
     lat: number;
     lng: number;
     averageRating: number;
-    reason: string;
+    address: string;
   }[];
   size: number;
 };

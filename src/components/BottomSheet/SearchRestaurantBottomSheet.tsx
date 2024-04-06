@@ -74,7 +74,7 @@ const SearchRestaurantBottomSheet = () => {
                       <div className="text-sm text-gray-400">
                         {formatCategory(restaurant.category)}
                       </div>
-                      <div className="text-sm">{restaurant.reason}</div>
+                      <div className="text-sm">{restaurant.address}</div>
                     </div>
                   );
                 })}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SearchRestaurantBottomSheet from "@/components/BottomSheet/SearchRestaurantBottomSheet";
 import MarkerDialog from "@/components/Dialog/MarkerDialog";
 import CampusSelector from "@/components/Map/CampusSelector";
 import KakaoMap from "@/components/Map/KakaoMap";
@@ -34,6 +35,7 @@ export default function Home() {
         selected={selectedMarker}
         setSelected={setSelectedMarker}
       />
+      <SearchRestaurantBottomSheet />
     </main>
   );
 }

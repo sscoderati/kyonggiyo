@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import RQProvider from "@/lib/react-query/QueryClient";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,14 @@ export const metadata: Metadata = {
     url: "https://kyonggiyo.site",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

@@ -154,7 +154,10 @@ export default function ReviewWriteDialog({
     // 리뷰를 작성하는 경우
     if (!isEditing) {
       imageUploadPromise.then((imageUrls) => {
-        postReview(restaurantId.toString(), { ...data, imageUrls: imageUrls })
+        postReview(restaurantId.toString(), {
+          ...data,
+          imageUrls: imageUrls.filter((url) => url),
+        })
           .then((res) => {
             if (res) {
               toast.success("리뷰가 성공적으로 작성되었습니다!");

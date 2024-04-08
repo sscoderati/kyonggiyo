@@ -70,6 +70,7 @@ export default function ReviewWriteDialog({
     setIsOpened(false);
     reviewWriteForm.reset();
     setImageFiles([]);
+    setImageSrcSet(["-", "-", "-"]);
     refetch();
   };
 
@@ -135,7 +136,7 @@ export default function ReviewWriteDialog({
         imageUploadPromise.then((imageUrls) => {
           patchReview(restaurantId, review.id, {
             ...data,
-            imageUrls: imageUrls.filter((url) => url !== null),
+            imageUrls: imageUrls.filter((url) => url),
           })
             .then((res) => {
               if (res) {

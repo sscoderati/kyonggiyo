@@ -122,6 +122,10 @@ export default function MarkerDialog({
                                     alt={`리뷰 이미지-${index}`}
                                     layout={"fill"}
                                     objectFit={"cover"}
+                                    placeholder={"blur"}
+                                    blurDataURL={
+                                      "data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mOsq6uayUAEYBxVSF+FAPiRFKF91MkMAAAAAElFTkSuQmCC"
+                                    }
                                   />
                                 </div>
                               ))}

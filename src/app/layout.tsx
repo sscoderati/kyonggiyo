@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={cn(inter.className, "bg-gray-300")}>
         <RQProvider>
-          <main className="mx-auto min-h-dvh flex-col bg-white sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]">
+          <main className="mx-auto min-h-[100%] flex-col bg-white sm:w-[320px] md:w-[480px] lg:w-[640px] xl:w-[800px] 2xl:w-[960px]">
             {children}
           </main>
         </RQProvider>

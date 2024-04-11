@@ -36,6 +36,7 @@ import { Scrollbar } from "@radix-ui/react-scroll-area";
 import axios from "axios";
 import { PlusCircle, XIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useDebouncedCallback } from "use-debounce";
 
 type ReviewWriteDialogProps = {
   trigger: React.ReactNode;
@@ -107,70 +108,72 @@ export default function ReviewWriteDialog({
     }
   };
 
-  const handleSubmit = reviewWriteForm.handleSubmit((data) => {
-    // 이미지 presigned url 발급 후 이미지 업로드
-    const imageUploadPromise = Promise.all(
-      imageFiles.map((file) => {
-        return getPresignedUrl(file.name).then((res) => {
-          return axios
-            .put(res.presignedUrl, file, {
-              headers: { "Content-Type": file.type },
-            })
-            .then(
-              () => res.presignedUrl.split("?")[0].split("amazonaws.com/")[1],
-            );
-        });
-      }),
-    );
-
-    // 리뷰를 수정하는 경우
-    if (isEditing && review) {
-      const imageDeletePromise = Promise.all(
-        toBeDeletedImageInfos.map((info) => {
-          if (info.id > 0) {
-            return deleteReviewImage(info);
-          }
+  const handleSubmit = reviewWriteForm.handleSubmit(
+    useDebouncedCallback((data) => {
+      // 이미지 presigned url 발급 후 이미지 업로드
+      const imageUploadPromise = Promise.all(
+        imageFiles.map((file) => {
+          return getPresignedUrl(file.name).then((res) => {
+            return axios
+              .put(res.presignedUrl, file, {
+                headers: { "Content-Type": file.type },
+              })
+              .then(
+                () => res.presignedUrl.split("?")[0].split("amazonaws.com/")[1],
+              );
+          });
         }),
       );
-      imageDeletePromise.then(() => {
+
+      // 리뷰를 수정하는 경우
+      if (isEditing && review) {
+        const imageDeletePromise = Promise.all(
+          toBeDeletedImageInfos.map((info) => {
+            if (info.id > 0) {
+              return deleteReviewImage(info);
+            }
+          }),
+        );
+        imageDeletePromise.then(() => {
+          imageUploadPromise.then((imageUrls) => {
+            patchReview(restaurantId, review.id, {
+              ...data,
+              imageUrls: imageUrls.filter((url) => url),
+            })
+              .then((res) => {
+                if (res) {
+                  toast.success("리뷰가 성공적으로 수정되었습니다!");
+                  refetch();
+                  cleanupFormWithCloseDialog();
+                }
+              })
+              .catch(() => {
+                toast.error("리뷰 수정에 실패했습니다.");
+              });
+          });
+        });
+      }
+      // 리뷰를 작성하는 경우
+      if (!isEditing) {
         imageUploadPromise.then((imageUrls) => {
-          patchReview(restaurantId, review.id, {
+          postReview(restaurantId.toString(), {
             ...data,
             imageUrls: imageUrls.filter((url) => url),
           })
             .then((res) => {
               if (res) {
-                toast.success("리뷰가 성공적으로 수정되었습니다!");
+                toast.success("리뷰가 성공적으로 작성되었습니다!");
                 refetch();
                 cleanupFormWithCloseDialog();
               }
             })
             .catch(() => {
-              toast.error("리뷰 수정에 실패했습니다.");
+              toast.error("리뷰 작성에 실패했습니다.");
             });
         });
-      });
-    }
-    // 리뷰를 작성하는 경우
-    if (!isEditing) {
-      imageUploadPromise.then((imageUrls) => {
-        postReview(restaurantId.toString(), {
-          ...data,
-          imageUrls: imageUrls.filter((url) => url),
-        })
-          .then((res) => {
-            if (res) {
-              toast.success("리뷰가 성공적으로 작성되었습니다!");
-              refetch();
-              cleanupFormWithCloseDialog();
-            }
-          })
-          .catch(() => {
-            toast.error("리뷰 작성에 실패했습니다.");
-          });
-      });
-    }
-  });
+      }
+    }, 300),
+  );
 
   const handleCancelImage = (idx: number) => {
     const newImageSrcSet = [...imageSrcSet];

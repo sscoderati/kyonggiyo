@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { debounce } from "next/dist/server/utils";
 import getRestaurantByKeyword from "@/apis/getRestaurantByKeyword";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
+import { useDebouncedCallback } from "use-debounce";
 import { Drawer } from "vaul";
 import { formatCategory } from "@/utils/formatCategory";
 
@@ -38,7 +38,7 @@ const SearchRestaurantBottomSheet = () => {
               className={"w-4/5 items-center"}
               placeholder={"맛집을 검색해보세요!"}
               onClick={() => setSnap(1)}
-              onChange={debounce(() => refetch(), 500)}
+              onChange={useDebouncedCallback(() => refetch(), 300)}
             />
           </div>
           <div className="overflow-y-auto">

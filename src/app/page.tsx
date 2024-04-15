@@ -28,7 +28,7 @@ export default function Home() {
       </div>
       <Markers map={map} />
       <MarkerDialog />
-      <SearchRestaurantBottomSheet />
+      <SearchRestaurantBottomSheet map={map} />
     </main>
   );
 }

@@ -52,7 +52,6 @@ export default function Markers({ map }: MarkerProps) {
 
         window.kakao.maps.event.addListener(marker, "click", function () {
           setChosenMarker(store);
-          // customOverlay.setMap(map);
         });
         clusterer.addMarker(marker);
       });

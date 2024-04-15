@@ -4,19 +4,48 @@ import { useRef, useState } from "react";
 import getRestaurantByKeyword from "@/apis/getRestaurantByKeyword";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { MarkerDetail } from "@/types";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { Drawer } from "vaul";
 import { formatCategory } from "@/utils/formatCategory";
+import { useChosenMarkerStore } from "@/store/ChosenMarkerStore";
 
-const SearchRestaurantBottomSheet = () => {
+type SearchRestaurantBottomSheetProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  map: any;
+};
+
+const SearchRestaurantBottomSheet = ({
+  map: kakaoMap,
+}: SearchRestaurantBottomSheetProps) => {
   const [snap, setSnap] = useState<number | string | null>("148px");
   const keywordRef = useRef<HTMLInputElement>(null);
+  const { setChosenMarker } = useChosenMarkerStore();
   const { data, isFetching, isLoading, refetch } = useSuspenseQuery({
     queryKey: ["search_result"],
     queryFn: () => getRestaurantByKeyword(keywordRef.current?.value ?? ""),
   });
+
+  const handleSelectSearchedItem = (item: MarkerDetail) => {
+    const itemPosition = new window.kakao.maps.LatLng(item.lat, item.lng);
+    const content = `<div class="marker__badge">${item.name} <br /><div class="marker__badge__second">⭐️ ${item.averageRating} / ${formatCategory(item.category)}</div></div>`;
+    const customOverlay = new window.kakao.maps.CustomOverlay({
+      position: itemPosition,
+      content: content,
+      xAnchor: 0.5,
+      yAnchor: 2.2,
+    });
+    customOverlay.setMap(kakaoMap);
+    setTimeout(() => {
+      customOverlay.setMap(null);
+    }, 5000);
+    setChosenMarker(item);
+    setSnap("148px");
+    kakaoMap.setLevel(1);
+    kakaoMap.panTo(itemPosition);
+  };
 
   return (
     <Drawer.Root
@@ -58,7 +87,10 @@ const SearchRestaurantBottomSheet = () => {
                   return (
                     <div
                       key={restaurant.id}
-                      className="flex flex-col gap-2 rounded-md border border-gray-200 p-4"
+                      className="flex cursor-pointer flex-col gap-2 rounded-md border border-gray-200 p-4 hover:bg-gray-100"
+                      onClick={() =>
+                        handleSelectSearchedItem({ ...restaurant, reason: "" })
+                      }
                     >
                       <div className="flex items-center justify-between">
                         <div className="font-bold">{restaurant.name}</div>

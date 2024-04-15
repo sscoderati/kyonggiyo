@@ -11,7 +11,6 @@ import NavBar from "@/components/NavBar";
 export default function Home() {
   const [map, setMap] = useState(null);
   const [campusPos, setCampusPos] = useState(null);
-  const [selectedMarker, setSelectedMarker] = useState(null);
 
   return (
     <main>
@@ -27,14 +26,8 @@ export default function Home() {
           setPos={setCampusPos}
         />
       </div>
-      <Markers
-        map={map}
-        setSelected={setSelectedMarker}
-      />
-      <MarkerDialog
-        selected={selectedMarker}
-        setSelected={setSelectedMarker}
-      />
+      <Markers map={map} />
+      <MarkerDialog />
       <SearchRestaurantBottomSheet />
     </main>
   );

@@ -1,19 +1,18 @@
-import type { Dispatch, SetStateAction } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import getMarkers from "@/apis/getMarkers";
 import { markerImage } from "@/components/Map/KakaoMap";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { formatCategory } from "@/utils/formatCategory";
+import { useChosenMarkerStore } from "@/store/ChosenMarkerStore";
 
 type MarkerProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   map: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setSelected: Dispatch<SetStateAction<any>>;
 };
 
-export default function Markers({ map, setSelected }: MarkerProps) {
+export default function Markers({ map }: MarkerProps) {
+  const { setChosenMarker } = useChosenMarkerStore();
   const { data: markerData } = useSuspenseQuery({
     queryKey: ["markers"],
     queryFn: getMarkers,
@@ -52,13 +51,13 @@ export default function Markers({ map, setSelected }: MarkerProps) {
         });
 
         window.kakao.maps.event.addListener(marker, "click", function () {
-          setSelected(store);
+          setChosenMarker(store);
           // customOverlay.setMap(map);
         });
         clusterer.addMarker(marker);
       });
     }
-  }, [map, setSelected]);
+  }, [map]);
 
   useEffect(() => {
     loadKakaoMarkers();

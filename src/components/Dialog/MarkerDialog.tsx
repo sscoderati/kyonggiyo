@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import deleteReview from "@/apis/deleteReview";
 import getRestaurantDetail from "@/apis/getRestaurantDetail";
@@ -7,35 +6,26 @@ import ImageViewerDialog from "@/components/Dialog/ImageViewerDialog";
 import ReviewWriteDialog from "@/components/Dialog/ReviewWriteDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Restaurant } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { MapPin, Phone, Smile, Star, Tag, XIcon } from "lucide-react";
 import { toast } from "sonner";
 import checkUserId from "@/utils/checkUserId";
 import { formatCategory } from "@/utils/formatCategory";
+import { useChosenMarkerStore } from "@/store/ChosenMarkerStore";
 
-type MarkerDialogProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  selected: Restaurant | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setSelected: Dispatch<SetStateAction<any>>;
-};
-
-export default function MarkerDialog({
-  selected,
-  setSelected,
-}: MarkerDialogProps) {
+export default function MarkerDialog() {
   const userId = checkUserId();
+  const { chosenMarker, resetMarker } = useChosenMarkerStore();
   const { data, refetch } = useQuery({
-    queryKey: ["restaurant-detail", selected?.id],
-    queryFn: () => getRestaurantDetail(selected?.id ?? 0),
-    enabled: !!selected,
+    queryKey: ["restaurant-detail", chosenMarker?.id],
+    queryFn: () => getRestaurantDetail(chosenMarker?.id ?? 0),
+    enabled: !!chosenMarker,
   });
 
   const handleDeleteReview = (reviewId: number) => {
-    if (selected) {
-      deleteReview(selected.id, reviewId).then((res) => {
+    if (chosenMarker) {
+      deleteReview(chosenMarker.id, reviewId).then((res) => {
         if (res) {
           toast.success("리뷰가 삭제되었습니다");
           refetch();
@@ -49,7 +39,7 @@ export default function MarkerDialog({
 
   return (
     <>
-      {selected && data && (
+      {chosenMarker && data && (
         <div
           className={
             "fixed inset-x-0 top-28 z-20 mx-auto h-[500px] w-[360px] overflow-y-scroll rounded-lg bg-white text-black shadow-lg transition delay-100 duration-75 ease-in-out md:bottom-1/4 md:h-[800px] md:w-[400px]"
@@ -60,7 +50,7 @@ export default function MarkerDialog({
               className={"sticky top-4 z-30 float-end"}
               variant={"outline"}
               size={"icon"}
-              onClick={() => setSelected(null)}
+              onClick={() => resetMarker()}
             >
               <XIcon className={"h-4 w-4"} />
             </Button>
@@ -83,7 +73,7 @@ export default function MarkerDialog({
                 <MapPin className={"mr-2 h-4 w-4"} />
                 {data.address}
               </p>
-              {selected.contact && (
+              {data.contact && (
                 <p className={"my-2  flex text-sm"}>
                   <Phone className={"mr-2 h-4 w-4"} />
                   {data.contact}

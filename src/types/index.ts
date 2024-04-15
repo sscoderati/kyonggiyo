@@ -46,6 +46,7 @@ export type MarkerDetail = {
   category: FOOD_CATEGORY;
   lat: number;
   lng: number;
+  reason: string;
 };
 
 export type MarkerData = {

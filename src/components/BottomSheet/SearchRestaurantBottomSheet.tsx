@@ -58,7 +58,7 @@ const SearchRestaurantBottomSheet = ({
     >
       <Drawer.Portal>
         <Drawer.Content
-          className="border-b-none fixed bottom-0 left-0 right-0 z-30 mx-auto flex h-full max-h-[95%] flex-col rounded-t-[10px] border border-gray-200 bg-white outline-0 max-sm:w-full md:w-[40%] lg:w-[35%]"
+          className="border-b-none fixed bottom-0 left-0 right-0 z-20 mx-auto flex h-full max-h-[95%] flex-col rounded-t-[10px] border border-gray-200 bg-white outline-0 max-sm:w-full md:w-[40%] lg:w-[35%]"
           onInteractOutside={() => setSnap("148px")}
         >
           <div className="flex items-center justify-center border-b border-gray-200 p-4">

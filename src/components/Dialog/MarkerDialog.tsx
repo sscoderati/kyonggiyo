@@ -42,7 +42,7 @@ export default function MarkerDialog() {
       {chosenMarker && data && (
         <div
           className={
-            "fixed inset-x-0 top-28 z-20 mx-auto h-[500px] w-[360px] overflow-y-scroll rounded-lg bg-white text-black shadow-lg transition delay-100 duration-75 ease-in-out md:bottom-1/4 md:h-[800px] md:w-[400px]"
+            "fixed inset-x-0 top-28 z-30 mx-auto h-[500px] w-[360px] overflow-y-scroll rounded-lg bg-white text-black shadow-lg transition delay-100 duration-75 ease-in-out md:bottom-1/4 md:h-[800px] md:w-[400px]"
           }
         >
           <div className={"p-8"}>

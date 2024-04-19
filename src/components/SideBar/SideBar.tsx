@@ -55,6 +55,7 @@ export default function SideBar() {
           className={"mr-4 outline-0"}
           variant={"outline"}
           size={"icon"}
+          onFocus={(event) => event.preventDefault()}
           onClick={() => setIsOpened((prev) => !prev)}
         >
           <Menu className={"h-4 w-4"} />
@@ -66,6 +67,7 @@ export default function SideBar() {
           className={
             "fixed bottom-0 right-0 z-30 mt-24 flex h-full w-4/5 flex-col rounded-t-[10px] bg-white outline-0 md:w-[400px]"
           }
+          onOpenAutoFocus={(event) => event.preventDefault()}
         >
           <Drawer.Title className={"mx-4 my-4 font-medium"}>
             어디로 이동할까요?

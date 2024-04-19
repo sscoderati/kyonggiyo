@@ -29,7 +29,7 @@ export default function LoginPage() {
         }}
       />
       <Button
-        className={"mx-auto mt-4 h-[48px] w-[360px]"}
+        className={"mx-auto mt-4 h-[48px] w-2/3 max-w-[360px]"}
         variant={"outline"}
         onClick={() => router.push("/")}
       >

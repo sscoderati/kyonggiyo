@@ -10,9 +10,6 @@ const config = {
   ],
   prefix: "",
   theme: {
-    screens: {
-      xs: "440px",
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -22,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        xs: "440px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

@@ -85,7 +85,9 @@ export default function MarkerDialog() {
                     <Smile className={"mr-2 h-4 w-4"} />
                     추천 이유
                   </p>
-                  <p className={"rounded-md bg-gray-100 p-2"}>
+                  <p
+                    className={"whitespace-pre-wrap rounded-md bg-gray-100 p-2"}
+                  >
                     {data.reason ?? "일단 추천합니다."}
                   </p>
                 </div>

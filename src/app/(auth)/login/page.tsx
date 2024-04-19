@@ -1,11 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import getKakaoLoginPath from "@/apis/getKakaoLoginPath";
 import LoginCarousel from "@/components/Carousel/LoginCarousel";
+import { Button } from "@/components/ui/button";
 import KakaoLoginButton from "@/images/kakaobutton.png";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   return (
     <div className={"mx-auto flex h-dvh w-2/3 flex-col justify-center"}>
       <div className={"my-12 text-center text-3xl font-bold text-blue-500"}>
@@ -24,6 +28,13 @@ export default function LoginPage() {
           });
         }}
       />
+      <Button
+        className={"mx-auto mt-4 h-[48px] w-[360px]"}
+        variant={"outline"}
+        onClick={() => router.push("/")}
+      >
+        홈으로 돌아가기
+      </Button>
     </div>
   );
 }

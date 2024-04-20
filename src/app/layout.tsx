@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: "🍽️경기요! - 경기대학교 근처 맛집 지도 앱",
+    startupImage: [...splashScreenInfo],
   },
   formatDetection: {
     telephone: false,
@@ -27,9 +28,6 @@ export const metadata: Metadata = {
     description: "경기대학교 근처의 맛집을 쉽게 찾아보세요!",
     url: "https://kyonggiyo.site",
     type: "website",
-  },
-  icons: {
-    other: [...splashScreenInfo],
   },
 };
 

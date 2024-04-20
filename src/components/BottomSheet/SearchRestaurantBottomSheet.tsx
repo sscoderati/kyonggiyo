@@ -68,6 +68,7 @@ const SearchRestaurantBottomSheet = ({
               className={"w-4/5 items-center"}
               placeholder={"맛집을 검색해보세요!"}
               onClick={() => setSnap(1)}
+              onBlur={() => window.scrollTo(0, 0)}
               onChange={useDebouncedCallback(() => refetch(), 300)}
             />
           </div>

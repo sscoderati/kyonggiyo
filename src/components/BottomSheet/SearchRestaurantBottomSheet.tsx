@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import getRestaurantByKeyword from "@/apis/getRestaurantByKeyword";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -46,6 +46,14 @@ const SearchRestaurantBottomSheet = ({
     kakaoMap.setLevel(1);
     kakaoMap.panTo(itemPosition);
   };
+
+  useEffect(() => {
+    if ("virtualKeyboard" in navigator) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      navigator.virtualKeyboard.overlaysContent = true;
+    }
+  }, []);
 
   return (
     <Drawer.Root

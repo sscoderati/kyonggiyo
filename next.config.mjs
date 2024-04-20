@@ -4,7 +4,7 @@ const withPWA = withPWAInit({
   dest: "public",
   reloadOnOnline: true,
   fallbacks: {
-    document: "/offline",
+    document: "/~offline",
   },
   workboxOptions: {
     disableDevLogs: true
